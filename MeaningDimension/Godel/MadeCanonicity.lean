@@ -101,6 +101,12 @@ noncomputable abbrev standardDisj : Provability 𝗜𝚺₁ T :=
 /-- `□'` satisfies D1–D3. -/
 example : (standardDisj T).HBL := inferInstance
 
+omit [𝗜𝚺₁ ⪯ T] [T.SoundOnHierarchy 𝚺 1] in
+/-- `□'σ` is a Σ₁ sentence (a disjunction of two Σ₁ sentences), like `□σ`. -/
+theorem standard_disj_sigma1 (σ : ArithmeticSentence) :
+    ℬ[<, ℒₒᵣ].Hierarchy 𝚺 1 ((standardDisj T) σ) := by
+  simp [standardDisj, selfRefutation, Arithmetic.standardProvability_def]
+
 /-- `□'` is extensionally correct in the standard model: it holds of exactly the theorems of `T`.
 (External truth in `ℕ`, not internal provability.) -/
 theorem standard_disj_models_iff (σ : ArithmeticSentence) :

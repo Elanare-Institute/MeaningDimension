@@ -173,6 +173,8 @@ example : standardDisj T =
 example : (standardDisj T).HBL := inferInstance
 example (σ : ArithmeticSentence) : ℕ↓[ℒₒᵣ] ⊧ (standardDisj T) σ ↔ T ⊢ σ :=
   standard_disj_models_iff T σ
+example (σ : ArithmeticSentence) : ℬ[<, ℒₒᵣ].Hierarchy 𝚺 1 ((standardDisj T) σ) :=
+  standard_disj_sigma1 T σ
 example : T ⊬ T.standardProvability.con 🡒 (standardDisj T).con := standard_disj_con_not_implied T
 example : T ⊢ (standardDisj T).con 🡒 T.standardProvability.con := standard_disj_con_implies T
 example : T ⊬ (standardDisj T).con := standard_disj_con_unprovable T

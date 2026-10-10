@@ -1,7 +1,7 @@
-✔ [2080/2085] Built MeaningDimension.Godel.MadeCanonicity (2.5s)
-✔ [2081/2085] Built MeaningDimension (3.9s)
-✔ [2083/2085] Built Tests.Spec (1.7s)
-ℹ [2084/2085] Built Tests.AxiomAudit (1.6s)
+✔ [2080/2085] Built MeaningDimension.Godel.MadeCanonicity (1.1s)
+✔ [2081/2085] Built MeaningDimension (3.4s)
+✔ [2083/2085] Built Tests.Spec (1.6s)
+ℹ [2084/2085] Built Tests.AxiomAudit (1.5s)
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.provable_mono : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.unprovable_of_refuted : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.not_models_and_models_neg : [propext, Classical.choice, Quot.sound]
@@ -78,9 +78,10 @@ info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disj_HBL : [pr
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.standard_disj_con_not_implied : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disj_HBL2 : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disj_con_iff : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.standard_disj_sigma1 : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disjProv.eq_1 : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.standard_disj_models_iff : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.standardDisj : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.selfRefutation : [propext, Classical.choice, Quot.sound]
-info: Tests/AxiomAudit.lean:34:0: AXIOM AUDIT OK: 80 declarations, only [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: AXIOM AUDIT OK: 81 declarations, only [propext, Classical.choice, Quot.sound]
 Build completed successfully (2085 jobs).

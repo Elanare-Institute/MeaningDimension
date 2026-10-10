@@ -1,0 +1,48 @@
+# Theorem ledger
+
+Build status は `scripts/check_proofs.sh`（`lake build` + 公理監査）を commit **`a1b115e`** で実行した結果。すべて `sorry` なし、公理は `[propext, Classical.choice, Quot.sound]` のみ（`logs/axioms.log`）。Foundation は `dfaa003d`。
+
+Originality の区分: **known** = 既知の定理そのもの（Foundation の再利用） / **known corollary** = 既知の定理の直接の系で、Lean の証明は本プロジェクトで書いた / **new conditional** = 本プロジェクトで定義したインターフェース上の条件付き命題 / **new theorem** = 数学的に新しい定理。**本プロジェクトに new theorem はない。**
+
+| ID | Paper section | Statement | Lean name | Preconditions | Proof source | Build | Originality | Limitations |
+|---|---|---|---|---|---|---|---|---|
+| P1.1 | — | If T ⊆ U and T ⊢ φ then U ⊢ φ | `MeaningDimension.provable_mono` | none | Foundation `weakening` | ✔ | known | — |
+| P1.2a | §3.1–3.2 | If T ⪯ U, U consistent, T ⊢ ¬φ, then U ⊬ φ | `MeaningDimension.unprovable_of_refuted` | `[L.DecidableEq] [T ⪯ U] [Consistent U]` | new Lean proof (2 lines) | ✔ | known (elementary) | same language, same classical proof system |
+| P1.2b | §3.1 | Under one structure M ⊧* U ⊇ T, a T-refuted φ is false in M | `MeaningDimension.not_models_of_refuted` | `[T ⪯ U] [M ⊧* U]` | soundness (Foundation) | ✔ | known (elementary) | same interpretation |
+| P1.2c | §3.1 | No structure satisfies both φ and ¬φ | `MeaningDimension.not_models_and_models_neg` | none | Foundation semantics | ✔ | known | classical Tarski semantics only |
+| P1.3a | §2.1 | ∀ x : ℝ, x² + 1 ≠ 0 | `ComplexNumbers.real_sq_add_one_ne_zero` | none | Mathlib | ✔ | known | meta level |
+| P1.3b | §2.1 | ∃ z : ℂ, z² + 1 = 0 | `ComplexNumbers.complex_sq_add_one_eq_zero` | none | Mathlib (`Complex.I`) | ✔ | known | meta level |
+| P1.3c | §2.1, §3.1 | The ℒₒᵣ-sentence ∃x (x·x+1=0) is false in ℝ and true in ℂ | `ComplexNumbers.real_not_models_rootSentence`, `complex_models_rootSentence` | ℂ's `<` from `ComplexOrder` (unused by the sentence) | Foundation semantics + Mathlib | ✔ | known | one sentence, two structures; **not** a true contradiction |
+| P1.3d | §2.1, §6.1 | Th(ℝ) ⊄ Th(ℂ) | `ComplexNumbers.theoryOf_real_not_subset_complex` | — | from P1.3c | ✔ | known | domain change, not theory extension |
+| G1a | §3.4(ii) | T ⊬ Con_T | `Godel.G1_unprovable` | `[T.Δ₁] [𝗜𝚺₁ ⪯ T] [Consistent T]` | Foundation `consistent_unprovable` | ✔ | **known** (Gödel II) | Con_T depends on the Δ₁ presentation |
+| G1b | §3.4(iii) | T ⪱ T ∪ {Con_T} | `Godel.G1_strict` | same | Foundation instance (Second.lean) | ✔ | **known** | same |
+| L2.1 | — | ∀ n, 𝗜𝚺₁ ⪯ Tₙ | `Godel.ISigma1_le_ascent` | `[𝗜𝚺₁ ⪯ T]` | new Lean proof | ✔ | known (trivial) | — |
+| L2.2 | §3.4(iv), §6.3 | If S is Σ₁-sound and ⊇ 𝗜𝚺₁ then S ∪ {Con_S} is Σ₁-sound | `Godel.Stage.sigma1Sound_next` | `[𝗜𝚺₁ ⪯ S] [S Σ₁-sound]` | new Lean proof (deduction theorem + Σ₁-soundness + truth of Con) | ✔ | known corollary | — |
+| L2.3 | §3.4(iv) | Every stage of the ascent from a Σ₁-sound T is Σ₁-sound and consistent | `Godel.sigma1Sound_ascent`, `Godel.consistent_ascent` | `[T.Δ₁] [𝗜𝚺₁ ⪯ T] [T Σ₁-sound]` | induction on L2.2 | ✔ | known corollary | finite stages only |
+| G2a | §3.4(iv), §7.1 | ∀ n, Tₙ ⊬ Con(Tₙ) | `Godel.G2_unprovable` | same as L2.3 | G1 + L2.1 + L2.3 | ✔ | known corollary | Con(Tₙ) uses Foundation's union presentation |
+| G2b | §3.4(iv), §7.1 | ∀ n, Tₙ ⪱ Tₙ₊₁ | `Godel.G2_strict` | same | G1 + L2.1 + L2.3 | ✔ | known corollary | — |
+| G2c | §7.1 | m < n → Tₘ ⪱ Tₙ | `Godel.G2_strict_of_lt` | same | induction | ✔ | known corollary | — |
+| G2s1 | §5 Portrait 3 | T + ¬Con_T is consistent | `Godel.consistent_union_incon` | `[T.Δ₁] [𝗜𝚺₁ ⪯ T] [Consistent T]` | G1 | ✔ | known | — |
+| G2s2 | §5 Portrait 3 | (T + ¬Con_T) + Con(T + ¬Con_T) is inconsistent | `Godel.inconsistent_next_of_union_incon` | same | Foundation `height_union_incon_eq_one` | ✔ | known | — |
+| G2s3 | §5 Portrait 3, §6.3 | T + ¬Con_T is not Σ₁-sound | `Godel.not_sigma1Sound_union_incon` | same | G2s2 + L2.2 | ✔ | known | shows the Σ₁-soundness hypothesis of G2 cannot be weakened to consistency |
+| G3a | §3.4 (Turing–Feferman, finite part) | ℕ-soundness holds at every stage and in ⋃ₙ Tₙ | `Godel.models_ascent`, `Godel.models_iUnion_ascent` | `[ℕ ⊧* T]` | Foundation instance + induction | ✔ | known (trivial) | says nothing about r.e. of the union |
+| G3b | §3.4 | ℕ ⊧ ¬□_Tⁿ⊥ for all n | `Godel.models_conItr`, `Godel.models_Conω` | `[T Σ₁-sound]` | Foundation `models_boxBot_iff`, `height_eq_top_of_sigma1_sound` | ✔ | known | — |
+| G3 | §3.4, §7.1 | T_ω = T ∪ {¬□_Tⁿ⊥} ≊ T ∪ U with U Π₁ and Δ₁-presented; T ∪ U ⊬ Con(T ∪ U); T ∪ U ⪱ (T ∪ U) + Con; T_ω ⪱ (T ∪ U) + Con | `Godel.G3` | `[T.Δ₁] [𝗜𝚺₁ ⪯ T] [ℕ ⊧* T]` | Foundation `exists_prenex_axiomatization_turingOmega` + G1 + G3b | ✔ | known corollary | (1) assumes ℕ-soundness, not Σ₁-soundness; (2) T_ω is Foundation's {¬□_Tⁿ⊥}, **not** proved equal to ⋃ₙ Tₙ; (3) Con(T_ω) depends on Foundation's presentation of U |
+| G4 | §3.4(iv) | ∀ S, Eligible S → ∃ S', S ⪱ S' ∧ Eligible S' | `Godel.G4`, `Godel.Eligible.next` | Eligible := 𝗜𝚺₁ ⪯ S ∧ S Σ₁-sound | G1 + L2.2 | ✔ | new conditional (interface) / known content | about effectively presented arithmetic theories only |
+| G4i | §3.4(iv) | Iterating `next` stays eligible and properly extends S | `Godel.Eligible.iterate_next`, `Godel.Eligible.properExtension_iterate_next` | Eligible S | induction | ✔ | known corollary | finite iterates |
+| Q1 | §3.3 | No eligible stage proves every sentence true in ℕ | `Godel.not_exists_eligible_proves_all_truths` | — | G1 + truth of Con | ✔ | known corollary (Gödel II) | "one stage for all questions" refuted only for eligible stages |
+| Q2 | §3.3 | Con(Tₙ) is proved at stage n+1 | `Godel.consistency_proved_later` | — | by definition | ✔ | trivial | the paper's "for each question, someday" for *all* true sentences (Turing–Feferman) is **not** formalized |
+| M1–M2 | §4.2 | For any provability □ and sentence π, □ ∨ π satisfies D2, D3 (and D1) whenever □ does | `MadeCanonicity.disjProv`, `disj_HBL2`, `disj_HBL3`, `disj_HBL` | `[L.ReferenceableBy L] [L.DecidableEq]`, □ satisfies HBL | new Lean proof | ✔ | known-style (elementary; novelty not claimed) | abstract provability layer |
+| M3 | §4.2 | Con(□ ∨ π) ↔ Con(□) ∧ ¬π | `MadeCanonicity.disj_con_iff` | — | propositional | ✔ | elementary | — |
+| M4 | §4.1 | □' := □_T ∨ □_T(¬Con_T) is correct in ℕ, and □'σ is a Σ₁ sentence | `MadeCanonicity.standard_disj_models_iff`, `standard_disj_sigma1` | `[T.Δ₁] [𝗜𝚺₁ ⪯ T] [T Σ₁-sound]` | Foundation `models_standardProvability_iff`, `con_unrefutable` | ✔ | elementary | — |
+| M5 | §1, §4.1 | T ⊬ Con_T → Con'; T ⊢ Con' → Con_T; T ⊬ Con' | `MadeCanonicity.standard_disj_con_not_implied`, `standard_disj_con_implies`, `standard_disj_con_unprovable` | same | Foundation `formalized_unprovable_not_con`, `con_unprovable` | ✔ | elementary; constrains made-canonicity | link to the presentation α' is informal (`made_canonicity_audit.md` C2) |
+
+## 指示書の項目で未実施のもの
+
+| 項目 | 状態 |
+|---|---|
+| Phase 1.4（外延的同値から内部同値が出ないこと） | 述語レベルでは M4–M5 が該当。**表示（Δ₁ インスタンス）レベルでは未実施**。 |
+| G3 の Σ₁ 健全性版 | 未実施（コンパクト性の議論が要る）。 |
+| ⋃ₙ Tₙ の r.e. 性、⋃ₙ Tₙ ≊ T_ω | 未実施（`open_problems.md`）。 |
+| Phase 3 の P1（表示データ構造の分離）、P4（Feferman の構成） | 未実施。 |
+| Phase 4–6 | 未着手。 |
