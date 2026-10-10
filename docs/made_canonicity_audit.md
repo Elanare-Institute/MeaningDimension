@@ -2,7 +2,7 @@
 
 対象: 新稿 §3.5–§4.2、Definition 1。**made-canonicity が成り立つことを前提にせず**、定義の各読みについて反例を探した。
 
-凡例: **[Lean]** = Lean で証明済み（`MeaningDimension/Godel/MadeCanonicity.lean`、commit `a1b115e`） / **[紙]** = 紙上の証明（未形式化。標準的事実に依存） / **[文献]** = 原文で確認した既知結果。
+凡例: **[Lean]** = Lean で証明済み（`MeaningDimension/Godel/MadeCanonicity.lean`、commit `54dc740`） / **[紙]** = 紙上の証明（未形式化。標準的事実に依存） / **[文献]** = 原文で確認した既知結果。
 
 ## 1. 定義と三つの読み
 

@@ -1,6 +1,6 @@
 # Theorem ledger
 
-Build status は `scripts/check_proofs.sh`（`lake build` + 公理監査）を commit **`a1b115e`** で実行した結果。すべて `sorry` なし、公理は `[propext, Classical.choice, Quot.sound]` のみ（`logs/axioms.log`）。Foundation は `dfaa003d`。
+Build status は `scripts/check_proofs.sh`（`lake build` + 公理監査）を commit **`54dc740`** で実行した結果。すべて `sorry` なし、公理は `[propext, Classical.choice, Quot.sound]` のみ（`logs/axioms.log`）。Foundation は `dfaa003d`。
 
 Originality の区分: **known** = 既知の定理そのもの（Foundation の再利用） / **known corollary** = 既知の定理の直接の系で、Lean の証明は本プロジェクトで書いた / **new conditional** = 本プロジェクトで定義したインターフェース上の条件付き命題 / **new theorem** = 数学的に新しい定理。**本プロジェクトに new theorem はない。**
 

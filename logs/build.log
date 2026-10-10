@@ -1,7 +1,4 @@
-✔ [2080/2085] Built MeaningDimension.Godel.MadeCanonicity (1.1s)
-✔ [2081/2085] Built MeaningDimension (3.4s)
-✔ [2083/2085] Built Tests.Spec (1.6s)
-ℹ [2084/2085] Built Tests.AxiomAudit (1.5s)
+ℹ [2084/2085] Replayed Tests.AxiomAudit
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.provable_mono : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.unprovable_of_refuted : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.not_models_and_models_neg : [propext, Classical.choice, Quot.sound]

@@ -2,7 +2,7 @@
 
 ノードの分類:
 
-- **[L]** Lean theorem（本プロジェクトで証明、commit `a1b115e`）
+- **[L]** Lean theorem（本プロジェクトで証明、commit `54dc740`）
 - **[F]** previously formalized theorem（Foundation `dfaa003d` / Mathlib）
 - **[M]** unformalized mathematical assumption or argument（紙上の証明・標準的事実）
 - **[P]** philosophical axiom / claim（数学的に証明しない）

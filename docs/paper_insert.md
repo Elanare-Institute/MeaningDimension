@@ -71,7 +71,7 @@ The following are **not** proved.
 
 ## 5. Reproducibility
 
-- Repository: `MeaningDimension/` (local; commit `a1b115e` for the Lean sources).
+- Repository: `MeaningDimension/` (local; commit `54dc740` for the Lean sources).
 - Lean `leanprover/lean4:v4.34.0`; Mathlib `5ed2965256430c3649e86755f9576b54eca72435`; Foundation `dfaa003d0c4533c89ca72ae513d9c055fd3fe7bf` (https://github.com/FormalizedFormalLogic/Foundation). All transitive dependencies are pinned in `lake-manifest.json`.
 - Verification: `scripts/check_proofs.sh` (rejects `sorry`/`admit`/`axiom`/`native_decide`/`unsafe`; runs `lake build`, including the specification tests `Tests/Spec.lean`; audits the axioms of all 81 declarations; records the environment in `logs/`).
 
