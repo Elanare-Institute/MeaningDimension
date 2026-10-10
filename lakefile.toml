@@ -1,0 +1,20 @@
+name = "MeaningDimension"
+defaultTargets = ["MeaningDimension", "Tests"]
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+
+[[lean_lib]]
+name = "MeaningDimension"
+
+# Specification tests and the axiom audit (see docs/spec.md).
+[[lean_lib]]
+name = "Tests"
+globs = ["Tests.+"]
+
+# Foundation is pinned to an exact commit (see docs/dependency_audit.md).
+[[require]]
+name = "Foundation"
+git = "https://github.com/FormalizedFormalLogic/Foundation"
+rev = "dfaa003d0c4533c89ca72ae513d9c055fd3fe7bf"
