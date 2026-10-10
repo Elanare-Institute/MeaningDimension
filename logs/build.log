@@ -1,4 +1,7 @@
-ℹ [2082/2084] Built Tests.AxiomAudit (1.5s)
+✔ [2080/2085] Built MeaningDimension.Godel.MadeCanonicity (2.5s)
+✔ [2081/2085] Built MeaningDimension (3.9s)
+✔ [2083/2085] Built Tests.Spec (1.7s)
+ℹ [2084/2085] Built Tests.AxiomAudit (1.6s)
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.provable_mono : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.unprovable_of_refuted : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.not_models_and_models_neg : [propext, Classical.choice, Quot.sound]
@@ -65,6 +68,19 @@ info: Tests/AxiomAudit.lean:34:0: MeaningDimension.Godel.not_exists_eligible_pro
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.Godel.ProperExtension : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.Godel.Eligible.properExtension_iterate_next.match_1_1 : []
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.Godel.Eligible.iterate_next.match_1_1 : []
-info: Tests/AxiomAudit.lean:34:0: AXIOM AUDIT OK: 66 declarations, only [propext, Classical.choice, Quot.sound]
-✔ [2083/2084] Built Tests.Spec (1.6s)
-Build completed successfully (2084 jobs).
+info: Tests/AxiomAudit.lean:34:0: FFL.FirstOrder.ProvabilityAbstraction.Provability.con.eq_1 : [propext, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disjProv : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.standard_disj_con_unprovable : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disj_apply : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.standard_disj_con_implies : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disj_HBL3 : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disj_HBL : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.standard_disj_con_not_implied : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disj_HBL2 : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disj_con_iff : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.disjProv.eq_1 : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.standard_disj_models_iff : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.standardDisj : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: MeaningDimension.MadeCanonicity.selfRefutation : [propext, Classical.choice, Quot.sound]
+info: Tests/AxiomAudit.lean:34:0: AXIOM AUDIT OK: 80 declarations, only [propext, Classical.choice, Quot.sound]
+Build completed successfully (2085 jobs).

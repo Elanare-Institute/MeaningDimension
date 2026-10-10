@@ -149,3 +149,36 @@ example : Eligible ⟨𝗜𝚺₁, inferInstance⟩ := ⟨inferInstance, inferIn
 
 example : ∀ n, ProperExtension ⟨𝗣𝗔, inferInstance⟩ (Stage.next^[n + 1] ⟨𝗣𝗔, inferInstance⟩) :=
   Eligible.properExtension_iterate_next ⟨inferInstance, inferInstance⟩
+
+/-! ## Phase 3 (preliminary): M1–M5 -/
+
+section Disj
+open MeaningDimension.MadeCanonicity FFL.FirstOrder.ProvabilityAbstraction
+variable {L : Language} [L.ReferenceableBy L] [L.DecidableEq] {T₀ T : Theory L}
+  (𝔅 : Provability T₀ T) (π : Sentence L)
+
+example (σ : Sentence L) : (disjProv 𝔅 π) σ = 𝔅 σ ⋎ π := disj_apply 𝔅 π σ
+example [𝔅.HBL2] : (disjProv 𝔅 π).HBL2 := inferInstance
+example [𝔅.HBL2] [𝔅.HBL3] : (disjProv 𝔅 π).HBL3 := inferInstance
+example : T₀ ⊢ (disjProv 𝔅 π).con 🡘 𝔅.con ⋏ ∼π := disj_con_iff 𝔅 π
+
+end Disj
+
+section DisjArith
+open MeaningDimension.MadeCanonicity FFL.FirstOrder.ProvabilityAbstraction
+variable (T : ArithmeticTheory) [T.Δ₁] [𝗜𝚺₁ ⪯ T] [T.SoundOnHierarchy 𝚺 1]
+
+example : standardDisj T =
+    disjProv T.standardProvability (T.standardProvability (∼T.standardProvability.con)) := rfl
+example : (standardDisj T).HBL := inferInstance
+example (σ : ArithmeticSentence) : ℕ↓[ℒₒᵣ] ⊧ (standardDisj T) σ ↔ T ⊢ σ :=
+  standard_disj_models_iff T σ
+example : T ⊬ T.standardProvability.con 🡒 (standardDisj T).con := standard_disj_con_not_implied T
+example : T ⊢ (standardDisj T).con 🡒 T.standardProvability.con := standard_disj_con_implies T
+example : T ⊬ (standardDisj T).con := standard_disj_con_unprovable T
+
+end DisjArith
+
+-- Non-vacuity for M4–M5.
+example : 𝗣𝗔 ⊬ 𝗣𝗔.standardProvability.con 🡒 (MeaningDimension.MadeCanonicity.standardDisj 𝗣𝗔).con :=
+  MeaningDimension.MadeCanonicity.standard_disj_con_not_implied 𝗣𝗔

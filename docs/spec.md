@@ -82,3 +82,23 @@ T が無矛盾（`[Consistent T]`）なら、`T' := T ∪ T.Incon`（= T + ¬Con
 
 - `sorry`, `admit`, `axiom`, `native_decide`, `unsafe` を使わない。
 - 各定理の `#print axioms` が `[propext, Classical.choice, Quot.sound]` の部分集合であること。
+
+## Phase 3（予備）: D1–D3 が決めないもの
+
+（2026-10-10 追記。実装前に `docs/made_canonicity_audit.md` §4 の紙上の議論に基づいて固定。）
+
+抽象 provability（Foundation の `Provability T₀ T`、言語 L は自己参照可能、`[L.DecidableEq]`）について:
+
+**M1** 任意の provability `𝔅` と任意の文 `π` に対し、`disjProv 𝔅 π` は `(disjProv 𝔅 π) σ = 𝔅 σ ⋎ π` を満たす provability である（D1 は 𝔅 の D1 から従う）。
+
+**M2** `𝔅` が D2 を満たせば `disjProv 𝔅 π` も D2 を、`𝔅` が D2 と D3 を満たせば `disjProv 𝔅 π` も D3 を満たす。`π` に条件はない。
+
+**M3** `T₀ ⊢ (disjProv 𝔅 π).con 🡘 𝔅.con ⋏ ∼π`。
+
+算術（`T` は Δ₁ 表示、`𝗜𝚺₁ ⪯ T`、Σ₁ 健全）、`𝔅 = T.standardProvability`、`π = 𝔅(∼𝔅.con)`、`𝔅' = disjProv 𝔅 π` について:
+
+**M4** 外延的正しさ: すべての文 σ について `ℕ ⊧ 𝔅' σ ↔ T ⊢ σ`。
+
+**M5** `T ⊬ 𝔅.con 🡒 𝔅'.con`、`T ⊢ 𝔅'.con 🡒 𝔅.con`（Σ₁ 健全性不要）、`T ⊬ 𝔅'.con`。
+
+M4–M5 の意味: 同じ理論について D1–D3 を満たし ℕ で正しい二つの provability が、T で同値でない無矛盾性文を持つ。made-canonicity が「その」無矛盾性文を D1–D3 経由で選ぶという主張に対する制約である。made-canonicity 自体（特に条件 (ii)）は形式化しない。
