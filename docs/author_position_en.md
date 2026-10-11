@@ -1,5 +1,7 @@
 # The author's position (English, for *Philosophia Mathematica*)
 
+> **2026-10-11 役割変更**: 論文原稿は著者と ChatGPT が作成し、Claude Code の担当は Lean 4 による数学的形式化・証明・反例探索のみになった。この文書は論文の構成・内容に関わるため Claude Code の担当外であり、**記録として保存し、以後は更新しない**。論文への適用は著者と ChatGPT が判断する。
+
 Drafted 2026-10-11 (Phase B). Companion to `author_position_jp.md`. This is a working document, not manuscript text.
 
 ## 0. Labels
@@ -32,7 +34,7 @@ Nothing labelled [MR] is offered as a proof of anything labelled [OAC].
 | **making** | The activity of making that is going on now, inseparable (in the author's sense) from acting intuition and open to the future. | Mechanical iteration of a predefined function such as `next : Stage → Stage`. |
 | **retroactive meaning** | A newly generated meaning-dimension, ideology or narrative changes how past events are interpreted. | Alteration of historical records; attributing the new interpretation to historical agents; rewriting of memory traces themselves. |
 | **meaning dimension** | A rule or framework that fixes what counts as an object, what counts as a question, and what can be proved, evaluated or chosen. | A mere new word or new proposition inside a fixed framework. |
-| **meaning-dimension generation** | The coming-into-being of such a framework. Applies in mathematics and also to ideologies, narratives and historical interpretation. | Discovery of a pre-existing truth; a monotone extension `T ⊆ T'` of a theory in a fixed language (this is at most one limiting case; see `godel_boundary.md` B3). |
+| **meaning-dimension generation** | The coming-into-being of such a framework. Applies in mathematics and also to ideologies, narratives and historical interpretation. | Discovery of a pre-existing truth. **Non-monotonicity is not a necessary condition** (author's condition, 2026-10-11): monotone cases (new axioms or proof principles in a fixed language, e.g. the reflection progression listed in the manuscript at line 155) and non-monotone cases (ℝ → ℂ, where Th(ℝ) ⊄ Th(ℂ)) can both be instances. What is excluded is only the claim that monotone extension alone represents every meaning-dimension generation. |
 | **potential infinity (generative sense)** | For any meaning dimension generated, a further one can be generated; and the possibilities themselves are generated, not selected from a completed space of possibilities. | Actual infinity; a modal space of possibilities given in advance (the author's stated difference from potentialism). |
 | **generative dialetheism** | A contradiction is a transition point: neither an error to be excluded nor a permanent truth to be accepted; a meaning dimension in which it is made true can *someday* be generated. | That Lean's classical logic proves this; that formal `φ ∧ ¬φ`, an unmet existence demand, undecidability and an open problem are the same thing. |
 | **door** | A limit already present in an existing system through which generation can pass: contradiction, undecidability, limits of available means, open problem. | A cause that compels the next step. |

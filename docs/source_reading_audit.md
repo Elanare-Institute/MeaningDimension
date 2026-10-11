@@ -129,4 +129,5 @@
 1. 前稿 *Which Consistency Statement?* は 2026-09-21 に Philosophia Mathematica に投稿され、9/24 に担当編集者に割り当てられた。
 2. 9/23 の AI 開示文は「All intellectual content — the made-canonicity criterion, the generative schema, the five-portrait classification, and the philosophical arguments — is the author's own」と述べている。
 3. 9/30 に共同編集長から、投稿論文が著者の AI ワークフローの産物かどうかの照会があった。10/1 の著者の回答は「The central concept is my own, although the expression "made-canonicity" was proposed by the AI during that process and I decided to adopt it」と述べ、会話履歴の提供も申し出ている。10/2 の編集長の返信は「I am now going to think about how to proceed」。それ以降の経過はこの資料にはない（`unknown`）。
+3a. **審査の結果（著者からの聞き取り、2026-10-11）**: 前稿は**デスクリジェクト**された。理由は、著者の要約によれば「著者の真に独創的な哲学的議論を書くことに失敗している」という趣旨。却下通知の原文は本プロジェクトでは見ていない（連携している Gmail には該当のやりとりがない）。したがって今回の改稿版は**新規投稿**として扱う。
 4. 今回（10/11）の著者の申告は「made-canonicity は AI が提案した概念であり、著者の西田理解と対応しない」である。**10/1 の回答（概念は著者のもの、語だけが AI の提案）との関係を、改稿版の AI 開示でどう説明するかは著者の判断事項**であり、`restructure_options.md` §4 で投稿上のリスクとして挙げる。

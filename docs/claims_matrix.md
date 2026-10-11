@@ -1,5 +1,7 @@
 # Claims matrix — PhilMath2.tex の全主張
 
+> **2026-10-11 役割変更**: 論文原稿は著者と ChatGPT が作成し、Claude Code の担当は Lean 4 による数学的形式化・証明・反例探索のみになった。この文書は論文の構成・内容に関わるため Claude Code の担当外であり、**記録として保存し、以後は更新しない**。論文への適用は著者と ChatGPT が判断する。
+
 作成日: 2026-10-11。Phase B。対象: `~/src/godelex/PhilMath2.tex`（560行、md5 `b09d7e9ab806ab6c6a083a8a6c359bae`）。「行」は同ファイルの行番号。
 
 ## 凡例
@@ -9,6 +11,7 @@
 - **Lean**: 本プロジェクトの Lean で検証済みのもの（名前）/ `Foundation` = 既存ライブラリにある / `—` = 形式化の対象外 / `未` = 形式化可能だが未実施。
 - **典拠の状態**: 先行研究の照合結果は `source_reading_audit.md` §5。ここで「要照合」とあるものは、Phase E の引用監査まで未確認。
 - 判定は**提案**であり、確定は著者の承認による。原稿は変更していない。
+- `hold` = 著者未決定の事項（J2・J3）に依存する主張。生成的真矛盾主義の定義や普遍的主張は AI の判断で変更しない（2026-10-11 の承認条件6）。
 - 西田に関わる行は、**著者の考えを西田より上位に置く**原則（著者の指示、2026-10-11）で判定した。西田本文との違いは、著者の主張を直す理由ではなく、西田への帰属を直す理由としてだけ扱う。
 
 ## A. 主張の一覧
@@ -18,7 +21,7 @@
 | ID | 行 | 主張（原文の語を保持して要約） | 種別 | 判定 | 理由 | 必要な典拠 | Lean |
 |---|---|---|---|---|---|---|---|
 | C0.1 | 28 | G2 is intensional: its verdict depends on how axioms are presented | MR/LIT | retain | Feferman 1960 の既知の事実 | Feferman 1960; Halbach–Visser 2014 | — |
-| C0.2 | 28 | MDG grounds generative dialetheism: for each contradiction a meaning dimension that makes it true can someday be generated | OAC | retain（「makes it true」は C3.3 に合わせて言い直す） | 著者の中心テーゼ T7, T8 | — | — |
+| C0.2 | 28 | MDG grounds generative dialetheism: for each contradiction a meaning dimension that makes it true can someday be generated | OAC | retain | 著者の中心テーゼ T7, T8。「makes it true」の言い方は J2・J3 の著者の決定に従う | — | — |
 | C0.3 | 28 | made-canonicity が導かれ、D1–D3 がその帰結として従う | OAC+MR | **remove** | 撤回（`retired_made_canonicity.md` R3, R4） | — | M1–M5 は反例側 |
 | C0.4 | 28 | Five self-referential patterns are classified | OAC | reinterpret | 分類は既知の数学で決まる。made/making による「予測」は外す（C5.8） | — | 部分（G2s） |
 | C0.5 | 28 | argues against Platonism and standard dialetheism | OAC | retain | 著者の立場。ただし Gödel はこの点で中立（`godel_boundary.md` §2-7） | Priest; Linnebo–Shapiro | — |
@@ -44,7 +47,7 @@
 |---|---|---|---|---|---|---|---|
 | C2.1a | 55 | 実数の規則（全順序を含む）は −1 の平方根を許さない | MR | retain | 順序体では x² ≥ 0 | 教科書的事実 | `real_sq_add_one_ne_zero` |
 | C2.1b | 55 | i の創造は新しい意味の次元（複素平面）を生んだ | OAC | retain | T6 | — | — |
-| C2.1c | 55 | 「矛盾」x² = −1 は除去されたのではなく、**規則を拡張することで真にされた** | OAC+MR | **reinterpret** | ℂ は ℝ の順序体の規則を拡張していない。順序を捨て、構造を取り替えている（Th(ℝ) ⊄ Th(ℂ)）。真になったのは同じ文の ℂ での充足（§B-1） | — | `complex_models_rootSentence`, `theoryOf_real_not_subset_complex` |
+| C2.1c | 55 | 「矛盾」x² = −1 は除去されたのではなく、**規則を拡張することで真にされた** | OAC+MR | **hold（J2: 著者未決定）** | 「真にされた」は生成的真矛盾主義の普遍的主張に関わるので、AI の判断で言い直さない（承認条件6）。数学的事実（ℂ では順序が保たれない、Th(ℝ) ⊄ Th(ℂ)）は、著者の決定に応じて注で使える。非単調性は意味次元生成の必要条件にしない（承認条件3） | — | `complex_models_rootSentence`, `theoryOf_real_not_subset_complex` |
 | C2.2 | 57 | Shannon 以前には、統計的構造をもつ情報源のメッセージがどれだけの情報を担うかについて「事実がなかった」 | OAC/HIST | reinterpret | 反実在論的な強い主張。査読で反論されやすい（統計力学のエントロピーなど先行概念との関係）。「測る概念がなかった」と「事実がなかった」を区別する | Hartley 1928; Shannon 1948 | — |
 | C2.3 | 59 | Scholze のパーフェクトイド空間は標数 0 と p を橋渡しした | HIST | retain | 付録32と整合 | Scholze 2012 | — |
 | C2.4 | 61 | 三つの事例は一つの操作（MDG）の例 | OAC | retain | T6 | — | — |
@@ -55,7 +58,7 @@
 | C2.9 | 89 | (2) 意味は語を超える（多義性、非言語的意味） | OAC/EMP | retain（表現を弱める） | 「always exceeds」は数えられない量の比較 | — | — |
 | C2.10 | 91 | (3) 意味に保存則はない | OAC | retain | — | — | — |
 | C2.11 | 93 | (4) Shannon の限界は通信についての制約で、意味についての制約ではない | OAC/LIT | retain | Shannon 1948 冒頭の、意味的側面を工学的問題から外す趣旨の一文で裏づけられる見込み（要照合） | Shannon 1948 | — |
-| C2.12 | 95 | (5) 意味だけでなく意味の次元が生成される（マルクス主義、フェミニズム）。数学の domain extension はその最も厳密な形 | OAC | retain | T6。ただし「most rigorous form」は B3 に照らして言い直す（ℂ は規則の取り替え） | — | — |
+| C2.12 | 95 | (5) 意味だけでなく意味の次元が生成される（マルクス主義、フェミニズム）。数学の domain extension はその最も厳密な形 | OAC | retain | T6。「most rigorous form」は著者の言い方として残す | — | — |
 | C2.13 | 97 | 様相は可能無限。究極の限界を証明した者はいない。証明責任は限界を主張する側にある | OAC | retain | 証明責任の議論は査読で反論されやすい（`restructure_options.md`） | — | — |
 | C2.14 | 101 | 発見ではない。ℂ の構成以前、「i² = −1」は真理値を持たなかった | OAC | retain | T11。付録3（Bombelli 1572 の計算）との時系列の整合（「構成」とは何時点か）を明記する必要 | — | — |
 | C2.15 | 103 | 発明は自然法則の利用を要する（標準的な意味で） | OAC | reinterpret | 「自然法則を利用した」は特許法上の発明の定義に近い。「標準的な意味」とするなら典拠を示し、そうでなければ定義として明示する | 典拠未確認 | — |
@@ -68,10 +71,10 @@
 |---|---|---|---|---|---|---|---|
 | C3.1 | 115 | 古典論理では φ ∧ ¬φ は爆発する | MR | retain | — | — | `not_models_and_models_neg` |
 | C3.2 | 117 | 標準的真矛盾主義: ある矛盾は真で、永続的な特徴として受け入れられる | LIT | investigate | Priest の立場の要約として照合 | Priest 2006 | — |
-| C3.3 | 119 | 生成的真矛盾主義の定義。矛盾は「at its level で真: 現行体系の規則のもとで φ と ¬φ が両方成り立つ」が final ではない | OAC | **reinterpret** | 同じ原稿の表1の注記（古典的 T では T の矛盾を意味する）、行151（T + φ が両方を導く）と緊張する。著者の確認が必要（`author_position_jp.md` U5）。§B-2 | — | `unprovable_of_refuted`, `not_models_of_refuted`（字義どおりの読みへの no-go） |
+| C3.3 | 119 | 生成的真矛盾主義の定義。矛盾は「at its level で真: 現行体系の規則のもとで φ と ¬φ が両方成り立つ」が final ではない | OAC | **hold（J3: 著者未決定）** | 定義の言い方は著者が決める（承認条件6）。表1の注記・行151との関係を含む選択肢は `revised_outline.md` §2。字義どおりの読みに対する古典論理の no-go（Lean）は、選択肢ごとの帰結として参照する | — | `unprovable_of_refuted`, `not_models_of_refuted`（字義どおりの読みへの no-go） |
 | C3.4 | 121 | ℝ で ∃x(x²+1=0) は順序体の公理で反証される | MR | retain | — | — | `real_not_models_rootSentence` |
 | C3.5 | 121 | 標準的真矛盾主義者はそれを真矛盾として受け入れ、矛盾許容的実解析で作業するだろう | LIT | **remove**（または仮定法に） | 真矛盾主義者の実際の主張への帰属に根拠がない。藁人形と読まれる | Priest（反例の確認） | — |
-| C3.6 | 121 | ℂ の構成がその矛盾を真にする生成 | OAC | reinterpret | C2.1c と同じ。§B-1 | — | 同上 |
+| C3.6 | 121 | ℂ の構成がその矛盾を真にする生成 | OAC | **hold（J2: 著者未決定）** | C2.1c と同じ | — | 同上 |
 | C3.7 | 123 | どの矛盾も penultimate。「解消」ではなく「充足」。ℝ は根を持たないまま | OAC/MR | retain（言い直し） | ℝ と ℂ の二つの構造の話として正確に書く | — | `theoryOf_real_not_subset_complex` |
 | C3.8 | 125 | 無限小: Berkeley 1734 → Weierstrass の ε-δ による除去 → Robinson 1966 による実現。次の段階ではなかった | HIST/OAC | retain | 付録11の慎重な言い方（真になったのは要求）に揃える | Berkeley 1734; Robinson 1966 | — |
 | C3.9 | 127 | 保証は「いつか」で、意味次元は生成されるまで可能性としても存在しない | OAC | retain | T7 | — | — |
@@ -241,7 +244,7 @@
 | 33 | Kepler 予想 | 未解決問題 | 妥当 | — | retain | Hales 2005, 2017 |
 | 34 | P vs NP と directional asymmetry | 未解決問題 | 著者の未査読論文の結果（「P = NP ⇔ すべての NP 関係が最悪 O(log n) の非対称性の解法を持つ」など）に依存。本プロジェクトでは**未読・未検証** | 「解消されたのは古典的な問いで、形式的命題ではない」と明記している点は正確 | investigate（PhilMath 論文から外すことも検討。自己引用と匿名化の問題もある） | da_paper |
 
-付録末尾（行434）: 「Contradictions have been made true (entries 1–12)」→ **reinterpret**。最新稿の各事例自身が、真になったのは矛盾そのものではなく「要求」や「形式」だと書いている（8–11）。まとめの文をそれに揃える。
+付録末尾（行434）: 「Contradictions have been made true (entries 1–12)」→ **hold（J2 著者未決定）**。最新稿の事例8–11自身は、真になったのは矛盾そのものではなく「要求」や「形式」だと書いている。まとめの文をどう書くかは J2 の決定に従う。
 
 ## B. 原文と訂正案の対比（数学的に不正確・緊張のある箇所）
 
@@ -249,15 +252,15 @@
 
 | # | 箇所 | 原文 | 問題 | 訂正案 |
 |---|---|---|---|---|
-| B-1 | 行55, 121 | "The 'contradiction' x² = −1 was not eliminated; it was made true by extending the rules." / "The construction of ℂ is the meaning-dimension generation that makes the contradiction true." | ℂ は ℝ の順序体の規則を拡張していない（順序が両立しない）。Th(ℝ) ⊄ Th(ℂ)。「真になった」のは文 ∃x(x²+1=0) の ℂ での充足で、矛盾 φ ∧ ¬φ ではない | "What ℝ refutes, ℂ satisfies: the sentence ∃x(x²+1=0) is false in ℝ and true in ℂ. ℂ is not obtained by adding rules to those of ℝ; the ordering is given up and the domain and operations are changed. The 'contradiction' is the clash between this demand and the rules of ℝ; what generation makes true is the demanded sentence, in a new structure." |
-| B-2 | 行119 | "The contradiction is true at its level — within the rules of the current system, both φ and ¬φ hold — but it is not final." | 同じ原稿の表1の注記（古典的 T では「両方証明可能」は T の矛盾）と行151（T + φ が両方を導く）と緊張する | 著者に二択を問う（`author_position_jp.md` U5）。(a) 古典的読み: "Within the current system, φ is refuted while practice demands it; the system extended by the demand derives both φ and ¬φ." (b) 文字どおりの真矛盾を「その水準で」認める読み: その場合、その水準の論理が矛盾許容的であることを明示し、§6.2 の標準的真矛盾主義との差を「final かどうか」だけに置く |
+| B-1 | 行55, 121 （**保留: J2 著者未決定**。下の訂正案は採用候補ではなく、選択肢の一つの材料として残す） | "The 'contradiction' x² = −1 was not eliminated; it was made true by extending the rules." / "The construction of ℂ is the meaning-dimension generation that makes the contradiction true." | ℂ は ℝ の順序体の規則を拡張していない（順序が両立しない）。Th(ℝ) ⊄ Th(ℂ)。「真になった」のは文 ∃x(x²+1=0) の ℂ での充足で、矛盾 φ ∧ ¬φ ではない | "What ℝ refutes, ℂ satisfies: the sentence ∃x(x²+1=0) is false in ℝ and true in ℂ. ℂ is not obtained by adding rules to those of ℝ; the ordering is given up and the domain and operations are changed. The 'contradiction' is the clash between this demand and the rules of ℝ; what generation makes true is the demanded sentence, in a new structure." |
+| B-2 | 行119 （**保留: J3 著者未決定**。選択肢は `revised_outline.md` §2） | "The contradiction is true at its level — within the rules of the current system, both φ and ¬φ hold — but it is not final." | 同じ原稿の表1の注記（古典的 T では「両方証明可能」は T の矛盾）と行151（T + φ が両方を導く）と緊張する | 著者に二択を問う（`author_position_jp.md` U5）。(a) 古典的読み: "Within the current system, φ is refuted while practice demands it; the system extended by the demand derives both φ and ¬φ." (b) 文字どおりの真矛盾を「その水準で」認める読み: その場合、その水準の論理が矛盾許容的であることを明示し、§6.2 の標準的真矛盾主義との差を「final かどうか」だけに置く |
 | B-3 | 行121 | "The standard dialetheist would accept it as a true contradiction and work within a paraconsistent real analysis." | 真矛盾主義者の実際の主張に根拠のない帰属 | 削除するか、"A dialetheist need not, and Priest does not, take this case as a dialetheia; the contrast is with the general attitude to contradictions." のように限定する（Priest の照合後） |
 | B-4 | 行231–235 | "T ⊢ φ ⇒ T ⊢ Prov(⌜φ⌝) for Σ₁ sentences φ" | メタレベルの推論規則で、D3 に必要な内部含意ではない | "T ⊢ φ → Prov(⌜φ⌝) for every Σ₁ sentence φ (formalized Σ₁-completeness, provable in IΣ₁)." 撤回後に §4 を残す場合のみ |
 | B-5 | 行286 | "GL cannot consistently contain the reflection schema □φ → φ" | 必然化で閉じた正規様相論理としてなら正しい。必然化を課さない拡張 GLS は無矛盾（二次資料で確認、`source_reading_audit.md` L15） | "No normal modal logic extending GL (closed under necessitation) contains the reflection schema □φ → φ consistently; Solovay's system GLS, which adds the schema without closing under necessitation, is consistent (it is the modal logic of arithmetical truth)." |
 | B-6 | 行286 | "A Lean 4 formalization verifies the strict hierarchy IΣ₁ < IΣ₁ + Con(IΣ₁) < ⋯ through ten stages." | ローカルの companion repo では第1段階のみ（`axiom` 依存） | "A Lean 4 formalization (on the Foundation library, with no additional axioms) verifies, for every Σ₁-sound theory T containing IΣ₁ with a Δ₁ presentation, that every finite stage Tₙ of the ascent is Σ₁-sound and that Tₙ ⊊ Tₙ₊₁ for all n." （本プロジェクトの `G2_strict` 等。数学的には既知であることも併記） |
 | B-7 | 行306 | "the Domain Principle — Cantor's principle that every property determines a set" | 著者自身の GC 論文 §6 は Priest の Domain Principle を "whenever there are things of a certain kind, there are all of those things" として引く。「すべての性質は集合を定める」は素朴内包に近い | Hallett 1984 p.25 の定式化（"Each potential infinite, if it is rigorously applicable mathematically, presupposes an actual infinite"、二次資料で確認）か、GC 論文の定式化に揃え、Priest の該当頁を一次照合する |
 | B-8 | 行316 | "It is stronger than consistency, and weaker than strict potentialism, which requires each truth to be made true at a stage and changes the logic" | Σ₁ 健全性（理論の性質）と strict potentialism（哲学的立場・論理の選択）は同じ尺度にない | "It is stronger than consistency. Unlike strict potentialism, it does not change the logic: Σ₁-soundness is a classical property of a theory, requiring that its existential theorems of the simplest kind be witnessed." |
-| B-9 | 行434 | "Contradictions have been made true (entries 1–12)" | 事例8–11の本文自身が、真になったのは矛盾ではなく要求・形式だと書く | "In entries 1–12, what a contradiction demanded has been met in a new structure — sometimes centuries after the contradiction was named." |
+| B-9 | 行434 （**保留: J2 著者未決定**） | "Contradictions have been made true (entries 1–12)" | 事例8–11の本文自身が、真になったのは矛盾ではなく要求・形式だと書く | "In entries 1–12, what a contradiction demanded has been met in a new structure — sometimes centuries after the contradiction was named." |
 | B-10 | 行87 | "No period of sustained human activity has seen a net decrease in the number of words in use." | 典拠のない経験的主張 | 削除するか、典拠を付けて限定する |
 | B-11 | 行41 | "Detlefsen (1979) argued that the intensionality strips G2 of its Hilbertian significance" | Detlefsen 1979 の論点は有限主義的な量化子の解釈で、注25は Feferman 型の内包性で G2 を覆す見方を退けている（L1） | Detlefsen 1979 の実際の論点（Con(T) は Hilbert の計画に関わる意味での無矛盾性を表現しない）に即して書き直すか、内包性の論者として別の典拠を探す |
 | B-12 | 行171 | "Turing (1939) showed that every true Π₁ sentence is provable at some stage of a transfinite progression of reflection principles over PA" | 基礎体系は Gödel の体系 P。Turing の進行は無矛盾性文の付加による序数論理（L4） | "Turing (1939) showed, for his ordinal logic over Gödel's system P, that every true Π₁ sentence ('θ(x) vanishes identically', θ primitive recursive) is provable at some stage of a transfinite progression of consistency extensions." |
@@ -271,9 +274,10 @@
 
 | 判定 | 本文（C0.1–C8.4、122行） | 付録（34事例） |
 |---|---|---|
-| retain | 73 | 30 |
-| reinterpret | 26 | 2（6, 10） |
+| retain | 74 | 30 |
+| reinterpret | 23 | 2（6, 10） |
 | remove | 18 | 0 |
-| investigate | 5 | 2（12, 34） |
+| investigate | 4 | 2（12, 34） |
+| hold（J2/J3 著者未決定） | 3 | 0 |
 
-付録の冒頭（行354）は retain、末尾（行434）は reinterpret。判定はすべて提案で、承認後に確定する。
+付録の冒頭（行354）は retain、末尾（行434）は hold（J2）。判定はすべて提案で、承認後に確定する。

@@ -40,3 +40,7 @@ scripts/check_proofs.sh      # 禁止構文の検査 / lake build（仕様テス
 | `docs/claims_matrix.md` | 最新稿の全主張の分類（retain / reinterpret / remove / investigate）と訂正案 |
 | `docs/godel_boundary.md` | Gödel・Feferman・Lean 成果と著者の存在論の境界 |
 | `docs/restructure_options.md` | 論文再構成の二案と推薦（**著者の承認待ち**） |
+
+## 役割変更（2026-10-11、最優先）
+
+論文原稿は著者と ChatGPT が作成する。Claude Code の担当は、Lean 4 による数学的な形式化・証明・反例探索と、その検証報告だけである。報告は `docs/math_verification_report.md`。論文の構成・内容に関わる文書（`revised_outline.md`、`restructure_options.md`、`claims_matrix.md`、`author_position_*.md` など）は記録として保存し、以後は更新しない。新しい命題は、著者と ChatGPT から具体的な仕様を受け取ってから実装する。
