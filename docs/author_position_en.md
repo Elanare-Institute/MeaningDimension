@@ -15,6 +15,12 @@ Every claim below carries exactly one label.
 
 Nothing labelled [MR] is offered as a proof of anything labelled [OAC].
 
+**Order of authority (author's instruction, 2026-10-11).** The author's own position ranks above Nishida.
+1. The philosophical reference point of the paper is the author's theses (§2). Nishida is a subordinate resource and point of comparison.
+2. Where the author's formulation and Nishida's text diverge, the author's formulation is **not** revised to fit Nishida; only claims *about Nishida* are corrected.
+3. Nishida's authority is not used to ground the author's theses. Nishida's text is neither a proof of them nor a criterion of their correctness.
+4. When the author uses a term of Nishidan origin (acting intuition; from the made to the making) in the author's own sense, it is marked as the author's usage. Only the content of verified passages is attributed to Nishida.
+
 ## 1. Terms and their boundaries
 
 | Term | Working definition | Excluded readings |
@@ -39,7 +45,7 @@ Nothing labelled [MR] is offered as a proof of anything labelled [OAC].
 - **T1 [OAC].** The present ("now") is where reality is generated. The author rejects the picture of past, present and future as three equally real regions of a completed time-line.
 - **T2 [OAC].** The past cannot be observed directly. It is reconstructed as narrative from present traces, by the present meaning-system. The event and its present meaning are distinguished; the claim is not that events did not occur.
 - **T3 [OAC].** The future does not yet exist. No calculation performed now reads off a completed future. The point is that present calculation and prediction do not exhaust the possibilities of future generation — not that prediction is impossible.
-- **T4 [OAC].** *Making* is the ongoing activity of making, inseparable from acting intuition and open to the future. In the author's earlier paper (2025), from a practitioner's standpoint pure experience already contains acting intuition: "seeing while making, making while seeing" is lived before it is theorized.
+- **T4 [OAC].** *Making* is the ongoing activity of making, inseparable from acting intuition and open to the future. "Acting intuition" here is the author's usage, not bound by Nishida's definitions. In the author's earlier paper (2025), from a practitioner's standpoint pure experience already contains acting intuition: "seeing while making, making while seeing" is lived before it is theorized; Nishida's two-stage development is read there as a theorist's detour.
 - **T5 [OAC].** Generation reaches back to the meaning of the past: new meaning-dimensions, ideologies and narratives change how past events are interpreted. This is not alteration of records, not attribution to historical agents, not rewriting of memory traces.
 
 ### 2.2 Meaning-dimension generation and potential infinity
@@ -57,10 +63,12 @@ Nothing labelled [MR] is offered as a proof of anything labelled [OAC].
 
 ### 2.4 Nishida
 
-- **T13 [OAC].** Nishida's acting intuition and "from the made to the making" are important resources. They are **not identical** with the author's theses on the non-ready-made character of time, the emergence of the future, and meaning-dimension generation.
+- **T13 [OAC].** The author's theses on the non-ready-made character of time, the emergence of the future, and meaning-dimension generation are the author's own philosophy and rank above Nishida. Nishida's acting intuition and "from the made to the making" are important resources, but they are **not identical** with these theses and do not ground them.
 - The author does **not** derive from Nishida a rule that the made must not be mixed with the making, nor a static one-to-one correspondence between axiom presentations (made) and provability relations (making). That correspondence belonged to the retired made-canonicity proposal (`retired_made_canonicity.md`).
 
-## 3. What can be attributed to Nishida (source check)
+## 3. What can be attributed to Nishida (source check — subordinate to §2)
+
+This section constrains only what may be *attributed to Nishida*. It does not constrain the author's theses in §2.
 
 **Source and limits.** Passages were retrieved verbatim from Aozora Bunko (raw XHTML, decoded from Shift_JIS; 60 quotations matched as exact substrings by script; 10 re-checked independently on 2026-10-11). Limits: the main texts are **modern-orthography editions** (Iwanami Bunko), not Nishida's original orthography; Aozora has **no page numbers**, so citations to the *Zenshū* still have to be made from the printed edition; the essays 「行為的直観」(1937) and 「論理と生命」(1936) are **not available** on Aozora (in preparation; card pages return 404), so claims about them are **not verified**. English glosses below are our working renderings, not published translations.
 
@@ -69,12 +77,12 @@ Main text: 「絶対矛盾的自己同一」, *Shisō* 202 (1939.3). Aozora card
 | ID | Passage (verbatim; ruby removed) | Working gloss | What it licenses |
 |---|---|---|---|
 | N1 | 「時は過去から未来へ、作られたものから作るものへと、無限に動いて行くのである。」（§一 第3段落） | Time moves infinitely from past to future, from the made to the making. | [SVN] The phrase and its tie to time. The GC preprint's English quotation (§2) corresponds to this sentence. |
-| N2 | 「動物にはいまだポイエシスということはない。作られたものが作るものから離れない、作られたものが作るものを作るということがない、故に作られたものから作るものへではない。」…「作られたものが作るものを作る、作られたものから作るものへである。故に人間はポイエシス的である」（§一 第12段落） | In animals there is not yet poiesis: the made does not separate from the making, the made does not make the making; therefore it is not "from the made to the making". … The made makes the making: that is "from the made to the making"; hence the human being is poietic. | [SVN] **Caution.** Mere non-separation of made and making is, in this text, the mark of *biological* life and explicitly *not* "from the made to the making". The human level is characterized by the made becoming independent of, opposed to, and productive of the making. A sentence attributing "inseparability of made and making" to Nishida would run against this passage unless qualified. |
+| N2 | 「動物にはいまだポイエシスということはない。作られたものが作るものから離れない、作られたものが作るものを作るということがない、故に作られたものから作るものへではない。」…「作られたものが作るものを作る、作られたものから作るものへである。故に人間はポイエシス的である」（§一 第12段落） | In animals there is not yet poiesis: the made does not separate from the making, the made does not make the making; therefore it is not "from the made to the making". … The made makes the making: that is "from the made to the making"; hence the human being is poietic. | [SVN] **For attribution only.** Mere non-separation of made and making is, in this text, the mark of *biological* life and explicitly *not* "from the made to the making". The human level is characterized by the made becoming independent of, opposed to, and productive of the making. The author's thesis that made and making are inseparable stands as the author's own; what must be avoided is attributing that thesis to Nishida. |
 | N3 | 「なお真に作られたものから作るものへではなくて、作られたものから作られたものへである。」（§二 第9段落） | (In biological life) it is not yet truly from the made to the making but from the made to the made. | [SVN] Same point. |
 | N4 | 「作るものが自己自身を否定して作られたものとなることが真に作るものとなるということが、作られたものから作るものへということであるのである。」（§二 第10段落） | That the making, by negating itself and becoming the made, truly becomes the making — this is what "from the made to the making" means. | [SVN] The relation is one of mutual (self-)negation — a dynamic, dialectical relation, not a one-way flow and not a static correspondence. |
 | N5 | 「主体と環境とが対立し、主体が環境を、環境が主体を形成し行くということは、過去と未来とが現在において対立し、矛盾的自己同一として作られたものから作るものへということである。」（§一 第22段落） | Subject and environment form each other; past and future oppose each other in the present; as contradictory self-identity, this is "from the made to the making". | [SVN] Reciprocity; the present as the place where past and future meet. |
 | N6 | 「行為的直観というのは、我々が自己矛盾的に客観を形成することであり、逆に我々が客観から形成せられることである。見るということと働くということとの矛盾的自己同一をいうのである。」（§二 第5段落） | Acting intuition is our self-contradictorily forming the object and, conversely, our being formed by it; the contradictory self-identity of seeing and acting. | [SVN] Definition-like characterization of acting intuition. |
-| N7 | 「かかる意味において、行為と直観とは何処までも相反するということができる。」（§三 第17段落） | In this sense, acting and intuition can be said to be opposed through and through. | [SVN] **Caution.** Nishida calls acting and intuition a *contradictory* self-identity and "opposed through and through". "Inseparability of acting and intuition" is the author's (and much of the secondary literature's) gloss; it should be presented as such. |
+| N7 | 「かかる意味において、行為と直観とは何処までも相反するということができる。」（§三 第17段落） | In this sense, acting and intuition can be said to be opposed through and through. | [SVN] **For attribution only.** Nishida calls acting and intuition a *contradictory* self-identity and "opposed through and through". "Inseparability of acting and intuition" is the author's own formulation; it stands as the author's thesis (T4) and is not to be attributed to Nishida. |
 | N8 | 「行為的直観的に物を把握するということは、作ることによって見ることである、ポイエシスによって物を知ることである。」（§三 第8段落） | To grasp things by acting intuition is to see by making, to know things by poiesis. | [SVN] "Seeing by making". The two-way formula 「作ることによって見、見ることによって作る」 quoted in the author's 2025 paper was **not found verbatim**; the nearest is 「見ることによって働き、働くことによって見る」 (§一 第13段落). |
 | N9 | 「それは因果論的に過去から決定せられる世界ではない、即ち多の一ではない、また目的論的に未来から決定せられる世界でもない」（§一 第3段落） | It is a world determined neither causally from the past nor teleologically from the future. | [SVN] Relevant to comparison with T3 (see §4). |
 | N10 | 「時が永遠の今の自己限定として成立するというのも、かかる考を逆にいったものに過ぎない。」（§一 第4段落）; 「過去と未来との相互否定的に一である所が現在であり」（§一 第5段落） | Time arises as the self-determination of the eternal now; the present is where past and future are one through mutual negation. | [SVN] Nishida's "eternal now". Comparison with T1 is a hypothesis, not an identity (see §4). |
@@ -85,16 +93,16 @@ Main text: 「絶対矛盾的自己同一」, *Shisō* 202 (1939.3). Aozora card
 
 Not found in the checked Aozora texts: the verbatim sentence "we see things by acting" (「我々は行為によって物を見る」); any explicit statement that the past is remade or reinterpreted from the present; "from the made to the making" outside 「絶対矛盾的自己同一」. A note on 「世界新秩序の原理」: "eternal now" occurs there in a passage on the imperial house (Aozora card 3217/3668; the card flags inappropriate expressions). It should not be cited as a neutral statement of Nishida's theory of time without that context.
 
-## 4. Comparative hypotheses (to be argued, not asserted)
+## 4. Nishida read from the author's position (to be argued, not asserted)
 
-These are **[HA]** or open comparison questions. None is a claim that Nishida held the author's view, or vice versa.
+The author's theses are the reference point; Nishida's passages are placed against them. These are **[HA]** or open comparison questions. None is a claim that Nishida held the author's view, or vice versa, and none is a reason to revise the author's view.
 
 | # | Author | Nishida (verified) | Status |
 |---|---|---|---|
 | H1 | T1: the present generates reality | N5, N10: the present as the self-determination of the eternal now, where past and future meet | Comparison hypothesis. Differences to be examined: the author does not invoke "eternity". |
 | H2 | T3: the future does not yet exist | N9 (not determined teleologically from the future); N11 (the future, not yet come, already appears) | Partial convergence (N9), possible divergence (N11). |
 | H3 | T2, T5: the past is reconstructed and re-meant from the present | N12, N13 | Comparison hypothesis. Nishida's texts speak of *Aufhebung* and of present unification giving new meaning; the author's narrative-reconstruction thesis is not found there. |
-| H4 | T4: making as ongoing activity, inseparable from acting intuition | N2–N4, N6–N8 | Convergence on activity and reciprocity; divergence in wording: Nishida's "contradictory self-identity"/"opposed through and through" vs the author's "inseparable". |
+| H4 | T4: making as ongoing activity, inseparable from acting intuition | N2–N4, N6–N8 | Convergence on activity and reciprocity. Where Nishida says "contradictory self-identity" / "opposed through and through", the author says "inseparable"; the author's formulation is retained as the author's. |
 | H5 | T7: possibilities themselves are generated | — | No verified Nishida passage checked so far bears directly on this. |
 
 ## 5. Mathematical results: pointer
