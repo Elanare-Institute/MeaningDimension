@@ -6,9 +6,9 @@
 
 | 項目 | 内容 |
 |---|---|
-| Lean ソース | `MeaningDimension/`。最終変更 commit `54dc740`（以後 `.lean` の変更なし） |
-| 検証 | `scripts/check_proofs.sh`（禁止構文の検査、`lake build`、`Tests/Spec.lean` の48件の仕様テスト、全宣言の公理監査、環境記録）。2026-10-11 に再実行し **ALL CHECKS PASSED** |
-| 依存公理 | 監査対象の81定数すべてが `[propext, Classical.choice, Quot.sound]` の部分集合（Lean 標準）。`sorry`・独自の `axiom`・`native_decide` なし |
+| Lean ソース | `MeaningDimension/`。§A–D の対象は commit `54dc740` 以後変更なし。2026-10-19 に `MeaningDimension/ACSI/` を追加（§E） |
+| 検証 | `scripts/check_proofs.sh`（禁止構文の検査、`lake build`、`Tests/Spec.lean` の48件の仕様テスト、全宣言の公理監査、環境記録）。2026-10-11 に再実行し **ALL CHECKS PASSED**。2026-10-19 に `Tests/ACSISpec.lean` を加えて再実行し **ALL CHECKS PASSED** |
+| 依存公理 | 監査対象の81定数（2026-10-19 の監査では ACSI を含め226定数。自動生成の補助定数を含む）すべてが `[propext, Classical.choice, Quot.sound]` の部分集合（Lean 標準）。`sorry`・独自の `axiom`・`native_decide` なし |
 | 外部ライブラリ | FormalizedFormalLogic/Foundation `dfaa003d0c4533c89ca72ae513d9c055fd3fe7bf`、Mathlib `5ed2965256430c3649e86755f9576b54eca72435`、Lean 4.34.0 |
 | 記法 | `T.Δ₁`: T の公理集合の、IΣ₁ で証明可能に Δ₁ な表示（データ）。`Con_T`（Lean: `T.consistent`）: その表示から作った無矛盾性文。`T.Con = {Con_T}`、`T.Incon = {¬Con_T}`。`T ⪯ U`: T の定理はすべて U の定理。`T ⪱ U`: `T ⪯ U` かつ `U ⪯ T` でない。`T ≊ U`: 相互に ⪯。Σ₁ 健全（`SoundOnHierarchy 𝚺 1`）: 証明できる Σ₁ 文はすべて ℕ で真。`ℕ ⊧* T`: T の公理はすべて ℕ で真 |
 | 新規性の総括 | **以下の証明済み命題に、数学的に新しい定理はない。** すべて既知の定理、その系、または初等的事実である（`lean_inventory_audit.md`） |
@@ -160,3 +160,46 @@
 2. A3・A6 の上昇は、固定した言語・固定した標準模型での、事前に定まった単調な手続きである。
 3. Lean の結果は Foundation の枠組み（IΣ₁ で証明可能に Δ₁ な表示）の範囲のものである。
 4. 数学的に新しい定理はない。
+
+## E. 絶対矛盾的自己同一（著者の定式化）の形式化（2026-10-19 追加）
+
+Gödel 関係の形式化とは独立。仕様は `docs/acsi_spec.md`（実装前に固定）。対象は、著者が西田から抽出した定式化（2026-10-19）であり、西田本文への帰属ではない。
+
+### E0. 共通事項
+
+| 項目 | 内容 |
+|---|---|
+| 著者の選択 | 主客未分の矛盾は**枠組みによる**（一つの枠組みの中に φ ∧ ¬φ は現れない）。「経験は自己の土台」の矛盾は**互いに先立つ**。後者も枠組み相対で扱う（`acsi_spec.md` M6） |
+| モデル化上の選択 | `acsi_spec.md` §1 の M1–M7（Claude による）。とくに M1: 枠組み = 評価述語の集合、枠組みでの同一 = どの述語でも区別されないこと |
+| Lean | `MeaningDimension/ACSI/Framework.lean`、`SubjectObject.lean`、`Incorporation.lean`、`MutualPrecedence.lean` |
+| 仕様テスト | `Tests/ACSISpec.lean`（AC1–AC10 の文言の書き起こしと、`ℕ`・`Bool`・`singletonMaking`・空の自己・過去 `[0, 1]` での非空虚性の確認） |
+| 依存 | Mathlib のみ（Foundation は使わない）。公理は標準3公理の部分集合。`Classical.choice` を使うのは `not_isOpen_of_finite` と `singletonMaking_isOpen` だけで、ほかは `propext`・`Quot.sound` 以下、または公理なし |
+| 矛盾許容論理 | 使わない |
+| 新規性 | **なし。** すべて初等的 |
+
+### E1. 証明済みの命題
+
+| ID | 命題（要約） | Lean 名 | 状態 |
+|---|---|---|---|
+| AC1 | 評価述語のない枠組み（純粋経験）では、すべてが同一。自己と経験も同一（主客未分）。対象は高々一点 | `Framework.pure_same`, `pure_same_subject_object`, `Framework.instSubsingletonObjPure` | 証明済み |
+| AC2 | 自己 S が評価した後の枠組みでは、自己と経験は区別される | `evaluated_not_same_subject_object` | 証明済み |
+| AC3 | (a) 同じ自己と経験について、「自己＝経験」は純粋経験の枠組みで真、評価後の枠組みで偽。(b) 一つの枠組みの中では、同一とその否定は両立しない | `subjectObject_frameworkRelative`, `Framework.not_same_and_not_same` | 証明済み |
+| AC4 | (a) 全く新しい ⇔ 評価が空。(b) 評価後の枠組みでは、全く新しい経験どうしは区別されない | `Self.isNew_iff_eval_eq_empty`, `evaluated_same_of_isNew` | 証明済み |
+| AC5 | 取り込みで経験が蓄えられ、分類できるようになり、既存の分類は失われない。全く新しい経験から生成された範疇は、それまでの認識体系にない。取り込み後の枠組みは、その経験を、生成された範疇の外の経験から区別する | `Making.mem_incorporate_experiences`, `experiences_subset_incorporate`, `classifies_incorporate`, `classifies_incorporate_of_classifies`, `generate_notMem_of_isNew`, `evaluated_incorporate_not_same` | 証明済み |
+| AC6 | 評価された結果だけに依存する取り込みは、全く新しい経験をすべて同じように取り込む。二つの新しい経験から異なる範疇を作る働きは、評価だけには依存しない。そのような働き（`singletonMaking`）はある | `FactorsThroughEval.eq_of_isNew`, `Making.not_factorsThroughEval`, `singletonMaking_generate_ne` | 証明済み |
+| AC7 | 時間的に展開した過去では、先行は厳密（非反射・非対称）で、互いに先立つことはない。自己同一の枠組み（自己の段階を区別しない）では、自己と各経験は互いに先立ち、自己は自己に先立つ。この枠組みが同一視するのは自己どうしだけ。先行と取り込みの対応（`run`） | `prec_irrefl`, `prec_asymm`, `stageFramework_not_mutual`, `selfIdentity_mutual`, `selfIdentity_self_precedes_self`, `selfIdentity_same_self`, `selfIdentity_not_same_self_exp`, `selfIdentity_not_same_exp_exp`, `run_take_succ`, `getElem_mem_run_take_succ`, `not_mutual_of_asymm` | 証明済み |
+| AC8 | 開放性（到達しうるどの自己にも全く新しい経験がある）のもとで、どの自己にも真に新しい範疇を生む次の取り込みがあり、すべてを分類する自己はない。経験が無限なら `singletonMaking` は開放的 | `IsOpen.exists_next`, `IsOpen.not_exists_final`, `singletonMaking_isOpen` | 証明済み |
+| AC9 | 二つの新しい経験を異なる自己に取り込むなら、どんな `F : Self → Self` もその取り込みを事前に決めていない | `Making.not_predetermined` | 証明済み |
+| AC10 | (a) 純粋経験の枠組みでは、作られた自己とその前の自己は区別されない。(b) 評価後の枠組みにとどまると AC6(a)。(c) 生成されうる範疇があらかじめ有限集合に収まるなら、開放性は成り立たない | `Making.pure_same_incorporate`, `Making.not_isOpen_of_finite` | 証明済み。(c) の仮定は `Bool` で充足を確認 |
+
+### E2. T14 の論証との対応
+
+`acsi_spec.md` §4 の表のとおり。T14 の 2（古典論理では爆発）は AC3(b)・AC7(g)、3（矛盾を final にすると生成が止まる）は AC10(a)、4（その水準で真だが final でない）は AC3(a)・AC7(c)(e) と AC5・AC6、5（可能無限）は AC8・AC10(c) に対応する。
+
+### E3. 言えないこと
+
+1. 純粋経験の実在や、人間の自己が実際にこう作られることは示さない。示したのは、著者の記述を M1–M7 で読んだとき、それらが一つのモデルで矛盾なく同時に成り立つこと、そして一つの枠組みにとどまる読みでは何が成り立たなくなるかである。
+2. M1 はモデル化上の選択であり、AC1 はこの定義からほぼ直接に従う。AC9 も、仮定から一行で従う。
+3. Lean では型があらかじめ固定される。「まだ存在しない可能性の生成」は、外から来る経験への依存と ∀∃ の形（M7）でしか表していない。AC10(c) が排除するのは有限の固定された可能性空間だけで、無限の固定された可能性空間と可能無限は区別できない。
+4. AC7 の先行関係 `Base h` は、段階の構造から定義した。取り込みの動力学との対応は AC7(a) で確認したが、先行関係そのものは定義による。
+5. 生成的真矛盾主義そのもの（§D.1）は、この形式化でも定義していない。著者の選択（枠組みによる）に従い、矛盾した文が枠組みごとに異なる真理値をとることと、枠組みの間の移行を形式化しただけである。

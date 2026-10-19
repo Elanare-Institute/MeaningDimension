@@ -4,3 +4,7 @@ import MeaningDimension.Godel.EffectiveAscent
 import MeaningDimension.Godel.LimitStage
 import MeaningDimension.Godel.NonFinality
 import MeaningDimension.Godel.MadeCanonicity
+import MeaningDimension.ACSI.Framework
+import MeaningDimension.ACSI.SubjectObject
+import MeaningDimension.ACSI.Incorporation
+import MeaningDimension.ACSI.MutualPrecedence

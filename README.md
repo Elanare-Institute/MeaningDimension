@@ -20,7 +20,9 @@ scripts/check_proofs.sh      # 禁止構文の検査 / lake build（仕様テス
 | `MeaningDimension/Godel/LimitStage.lean` | G3: ω 段階 |
 | `MeaningDimension/Godel/NonFinality.lean` | G4: 条件付き non-finality、量化順序 |
 | `MeaningDimension/Godel/MadeCanonicity.lean` | Phase 3（予備）: D1–D3 は無矛盾性文を決めない |
+| `MeaningDimension/ACSI/` | 絶対矛盾的自己同一（著者の定式化、2026-10-19）: 枠組み相対の主客未分、取り込み、互いに先立つこと、非完結性（`docs/acsi_spec.md`） |
 | `Tests/Spec.lean` | `docs/spec.md` から書き起こした仕様テスト（非空虚性の確認を含む） |
+| `Tests/ACSISpec.lean` | `docs/acsi_spec.md` から書き起こした仕様テスト（非空虚性の確認を含む） |
 | `Tests/AxiomAudit.lean` | 全宣言の公理監査 |
 | `docs/` | source map, dependency audit, spec, theorem ledger, dependency graph, scope, open problems, made-canonicity audit, paper insert（英語） |
 
