@@ -36,12 +36,23 @@ Originality の区分: **known** = 既知の定理そのもの（Foundation の�
 | M3 | §4.2 | Con(□ ∨ π) ↔ Con(□) ∧ ¬π | `MadeCanonicity.disj_con_iff` | — | propositional | ✔ | elementary | — |
 | M4 | §4.1 | □' := □_T ∨ □_T(¬Con_T) is correct in ℕ, and □'σ is a Σ₁ sentence | `MadeCanonicity.standard_disj_models_iff`, `standard_disj_sigma1` | `[T.Δ₁] [𝗜𝚺₁ ⪯ T] [T Σ₁-sound]` | Foundation `models_standardProvability_iff`, `con_unrefutable` | ✔ | elementary | — |
 | M5 | §1, §4.1 | T ⊬ Con_T → Con'; T ⊢ Con' → Con_T; T ⊬ Con' | `MadeCanonicity.standard_disj_con_not_implied`, `standard_disj_con_implies`, `standard_disj_con_unprovable` | same | Foundation `formalized_unprovable_not_con`, `con_unprovable` | ✔ | elementary; constrains made-canonicity | link to the presentation α' is informal (`made_canonicity_audit.md` C2) |
+| G5.1 | — (report §F, §G) | A second Δ₁ presentation β of the same axioms: α(x) ∨ "x = ⌜⊥ ⋏ ⊤ˢ⌝ with s a witness of □_α(¬Con_α)" | `Godel.twisted`, `ghostCh`, `ghostPresentation`, `twisted_ch` | `[T.Δ₁] [𝗜𝚺₁ ⪯ T] [T Σ₁-sound]` | Craig-style bounded padding (Foundation `CraigTrick.lean`), `con_unrefutable` | ✔ (2026-10-20) | known (Feferman 1960 style) | artificial presentation |
+| G5.2 | — | 𝗜𝚺₁ ⊢ □_α(¬Con_α) → □_β ⊥ | `Godel.provable_incon_imp_twisted_bot` | same | internal typed proofs (`TProof.byAxm`, ∧-elimination) + completeness | ✔ | known | internal statement |
+| G5.3 | — | 𝗜𝚺₁ ⊢ Con_β → Con_α; T ∪ {Con_β} ⊢ Con_α | `Godel.twistedCon_imp_con`, `provable_con_of_twistedCon` | same | `provable_standardProvability_imp_of_Δ₁Class_subset` | ✔ | known | — |
+| G5.4 | — | T ∪ {Con_α} ⊬ Con_β | `Godel.not_provable_twistedCon` | same | G5.2 + Foundation `formalized_unprovable_not_con` (Löb) | ✔ | known | no formalized deduction theorem used |
+| G5.5 | — | T ∪ {Con_α} ⪱ T ∪ {Con_β}; not ≊ | `Godel.strict_twisted`, `not_equiv_twisted` | same | G5.3 + G5.4 | ✔ | known | — |
+| G5.6 | — | ∃ d₁ d₂ : T.Δ₁ with inequivalent next stages; no F : Theory → Theory gives T ∪ {Con_d} for every presentation d | `Godel.exists_presentations_not_equiv`, `not_function_of_theory` | same | G5.5 | ✔ | known | with the presentation fixed, the next stage is still determined |
+| CR1 | — (report §H) | For a fresh past h in any growth system: the j-th item holds at the k-th stage ⇔ j < k; stages grow strictly; h has no duplicates; stages are pairwise distinct | `Correspondence.Growth.Fresh.holds_iff`, `le_iff`, `nodup`, `stages_injective` | growth system axioms, freshness | elementary (monotonicity + freshness) | ✔ (2026-10-20) | elementary | — |
+| CR2–CR3 | — | A fresh trace is isomorphic to the standard structure of its length; fresh traces of equal length are isomorphic (Holds and Next preserved and reflected) | `Growth.Fresh.ofStd`, `Growth.traceIso`, `traceIso_stage`, `traceIso_item` | same | CR1 | ✔ | elementary | the isomorphism type depends only on the length |
+| CR4 | — | Gödel: the past [Con(T₀), …, Con(Tₙ₋₁)] is fresh and its stages are Tₖ. ACSI: under openness there are fresh pasts of every length | `conPast_fresh`, `run_conPast`, `exists_fresh_of_isOpen` | Gödel: `[T.Δ₁] [𝗜𝚺₁ ⪯ T] [T Σ₁-sound]`; ACSI: `M.IsOpen S₀` | A3 `G2_unprovable`; AC8 | ✔ | known / elementary | — |
+| CR5 | — | The trace of every fresh past of experiences is isomorphic to the Gödelian trace of the same length (self k ↦ Tₖ, j-th experience ↦ Con(Tⱼ)); under openness, for every n | `acsiGodelIso`, `acsiGodelIso_stage`, `acsiGodelIso_item`, `exists_acsiGodelIso` | both | CR3 + CR4 | ✔ | elementary | covers rows (i)(ii)(iii)(v) only; forgets contents |
+| CR6 | — | Common form of AC9 and G5.6(b): two offered items with non-equivalent next stages ⇒ no function of the stage gives the next stage; instances: ACSI (offer = new experience, `singletonMaking`), Gödel (offer = Con of some presentation, G5.5) | `Growth.not_predetermined`, `acsi_not_equivalent`, `godel_not_equivalent`, `conOffer_con`, `conOffer_twistedCon` | G5 hypotheses on the Gödel side | AC9, G5.5 | ✔ | elementary | not part of the isomorphism; the offers differ |
 
 ## 指示書の項目で未実施のもの
 
 | 項目 | 状態 |
 |---|---|
-| Phase 1.4（外延的同値から内部同値が出ないこと） | 述語レベルでは M4–M5 が該当。**表示（Δ₁ インスタンス）レベルでは未実施**。 |
+| Phase 1.4（外延的同値から内部同値が出ないこと） | 述語レベルでは M4–M5 が該当。表示（Δ₁ インスタンス）レベルでは G5（2026-10-20）が、同じ公理集合の二つの表示で無矛盾性文が同値でない例を与える。 |
 | G3 の Σ₁ 健全性版 | 未実施（コンパクト性の議論が要る）。 |
 | ⋃ₙ Tₙ の r.e. 性、⋃ₙ Tₙ ≊ T_ω | 未実施（`open_problems.md`）。 |
 | Phase 3 の P1（表示データ構造の分離）、P4（Feferman の構成） | 未実施。 |

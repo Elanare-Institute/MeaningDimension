@@ -8,3 +8,6 @@ import MeaningDimension.ACSI.Framework
 import MeaningDimension.ACSI.SubjectObject
 import MeaningDimension.ACSI.Incorporation
 import MeaningDimension.ACSI.MutualPrecedence
+import MeaningDimension.Godel.PresentationDependence
+import MeaningDimension.Correspondence.Growth
+import MeaningDimension.Correspondence.ACSIGodel

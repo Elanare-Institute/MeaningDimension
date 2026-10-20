@@ -20,9 +20,13 @@ scripts/check_proofs.sh      # 禁止構文の検査 / lake build（仕様テス
 | `MeaningDimension/Godel/LimitStage.lean` | G3: ω 段階 |
 | `MeaningDimension/Godel/NonFinality.lean` | G4: 条件付き non-finality、量化順序 |
 | `MeaningDimension/Godel/MadeCanonicity.lean` | Phase 3（予備）: D1–D3 は無矛盾性文を決めない |
+| `MeaningDimension/Godel/PresentationDependence.lean` | G5（2026-10-20）: 同じ公理集合の二つの Δ₁ 表示で次段階 `T ∪ {Con}` が真に異なる。次段階は理論だけからは決まらない（`docs/presentation_spec.md`） |
 | `MeaningDimension/ACSI/` | 絶対矛盾的自己同一（著者の定式化、2026-10-19）: 枠組み相対の主客未分、取り込み、互いに先立つこと、非完結性（`docs/acsi_spec.md`） |
+| `MeaningDimension/Correspondence/` | CR（2026-10-20）: ACSI とゲーデルの上昇の、部分的な構造同型。成長系と痕跡の同型（`Growth.lean`）、ACSI 側とゲーデル側の実例と同型（`ACSIGodel.lean`）（`docs/correspondence_spec.md`） |
 | `Tests/Spec.lean` | `docs/spec.md` から書き起こした仕様テスト（非空虚性の確認を含む） |
+| `Tests/PresentationSpec.lean` | `docs/presentation_spec.md` から書き起こした仕様テスト（𝗜𝚺₁ と 𝗣𝗔 での実例化を含む） |
 | `Tests/ACSISpec.lean` | `docs/acsi_spec.md` から書き起こした仕様テスト（非空虚性の確認を含む） |
+| `Tests/CorrespondenceSpec.lean` | `docs/correspondence_spec.md` から書き起こした仕様テスト（`singletonMaking`・𝗜𝚺₁・𝗣𝗔 での実例化を含む） |
 | `Tests/AxiomAudit.lean` | 全宣言の公理監査 |
 | `docs/` | source map, dependency audit, spec, theorem ledger, dependency graph, scope, open problems, made-canonicity audit, paper insert（英語） |
 
