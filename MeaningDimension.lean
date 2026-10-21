@@ -4,3 +4,16 @@ import MeaningDimension.Godel.EffectiveAscent
 import MeaningDimension.Godel.LimitStage
 import MeaningDimension.Godel.NonFinality
 import MeaningDimension.Godel.MadeCanonicity
+import MeaningDimension.ACSI.Framework
+import MeaningDimension.ACSI.SubjectObject
+import MeaningDimension.ACSI.Incorporation
+import MeaningDimension.ACSI.MutualPrecedence
+import MeaningDimension.Godel.PresentationDependence
+import MeaningDimension.Correspondence.Growth
+import MeaningDimension.Correspondence.ACSIGodel
+import MeaningDimension.Generation.Embedding
+import MeaningDimension.Generation.RingLanguage
+import MeaningDimension.Generation.Examples
+import MeaningDimension.Generation.Refinement
+import MeaningDimension.Generation.Godel
+import MeaningDimension.Generation.Conjugate

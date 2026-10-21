@@ -1,5 +1,7 @@
 # Material for the paper (Philosophia Mathematica resubmission)
 
+> **2026-10-11 役割変更**: 論文原稿は著者と ChatGPT が作成し、Claude Code の担当は Lean 4 による数学的形式化・証明・反例探索のみになった。この文書は論文の構成・内容に関わるため Claude Code の担当外であり、**記録として保存し、以後は更新しない**。論文への適用は著者と ChatGPT が判断する。
+
 Prepared 2026-10-10 against `paper_draft.pdf` (27 pp., 9 October 2026). The newer `PhilMath2.pdf` was not available; section numbers refer to `paper_draft.pdf` and must be re-checked against the latest version. Nothing below has been written into the manuscript.
 
 ---
