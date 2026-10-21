@@ -438,6 +438,7 @@ Gödel 関係の形式化とは独立。仕様は `docs/acsi_spec.md`（実装�
   - `Refinement.lean`: 細分、MDG6
   - `Godel.lean`: MDG4、MDG5
   - `Conjugate.lean`: MDG7
+  - `Packing.lean`: MDG8（Kappa の梱包。§I11、2026-10-21 追加）
 - テスト: `Tests/MDGSpec.lean`（仕様の文言の書き起こしと、`singletonMaking`・𝗜𝚺₁・𝗣𝗔 での実例化）。
 - 依存公理はすべて標準3公理の部分集合。
 
@@ -608,3 +609,52 @@ Gödel 関係の形式化とは独立。仕様は `docs/acsi_spec.md`（実装�
 - ACSI の成長のうち、選択型（重要でない区別を同一視する）は表していない（D9）。
 - 英語の "contradiction"（一つの体系の中の φ ∧ ¬φ）は、Lean の三つの形のどれにも厳密には当てはまらない（I8 の最後の項）。訳語をどうするかは著者が決める。
 - 数学的に新しい定理はない。新規性は主張しない。
+
+### I11. Kappa の「2+2=5」と埋め込みの条件（MDG8、2026-10-21 追加）
+
+- 指示書: `CLAUDE_CODE_MDG8_KAPPA_INSTRUCTIONS.md`（2026-10-21）。D1–D9 に従う（とくに D4: 「含む」は構造の埋め込み）。
+- 仕様: `docs/mdg_spec.md` §7（実装前に固定。調整 J11–J16）。
+- Lean: `MeaningDimension/Generation/Packing.lean`（名前空間 `MeaningDimension.Generation.Kappa`。一般の補題 `isEmpty_of_open`・`evalOn_univ`・`models_iff_of_surjective`・`not_flips_of_surjective` は `MeaningDimension.Generation`）。
+- テスト: `Tests/MDGSpec.lean` の MDG8 節（仕様の文言の書き起こしと、w = 1、w = −1/2 での実例化）。
+- 依存公理はすべて標準3公理の部分集合。
+- **Claude Web の見込み（指示書 §0）は、三点とも Lean で確かめられた。** 違いはなかった。
+
+**主な調整**（詳細は仕様 §7.1）:
+- **J11**: 構造はどれも台 ℚ にのるので、ℚ に通常の構造、型の別名 `Pack w := ℚ` に梱包の構造を入れる。指示書の `addModel ↪ₛ[ℒₖ] packModel w` は `ℚ ↪ₛ[ℒₖ] Pack w` と書く。
+- **J13**: `four`、`five` は原子論理式として直接つくる（“…” 記法は ⌜n⌝ を数字項に読むため）。
+- **J14・J15**: 「埋め込みはない」は「量化子のない文が M で真、M' で偽なら埋め込みはない」（MDG1(b)）から、「真理値が同じ」は「全射の埋め込みはすべての文を保つ」（MDG1(f) で像 = 全体）から出す。
+- **J16**（指示書にない追加）: 一般の w ≠ 0 での反転文 `∼four`、`ℒᵣ` での MDG3 と同じ形の系（`Flips ℒᵣ ℚ (Pack w) (∼zeroR)`、`¬ ReversalStep`）、(b) の `ℒ⊕`・`ℒᵣ` 版。
+
+1. **命題**（MDG8）:
+   - (a) 真理値（`ℒₖ`）: ℚ（通常の加法）で `⌜2⌝ ⊕ ⌜2⌝ = ⌜4⌝` は真、`⌜2⌝ ⊕ ⌜2⌝ = ⌜5⌝` は偽。w ≠ 0 の梱包 `Pack w` で `four` は偽。`Pack 1` で `five` は真（Lakatos の数値）。
+   - (b) 通常の加法は w = 0 の梱包である: `packModel 0 = addModel`、`packModelP 0 = addModelP`、`packRing 0 = ringModel ℚ`（構造として等しい）。恒等写像 `idPack : ℚ ↪ₛ[ℒₖ] Pack 0` は全射の埋め込み。
+   - (c) 数を定数として固定する言語 `ℒₖ` では、w ≠ 0 なら埋め込み `ℚ ↪ₛ[ℒₖ] Pack w` はない。反転文はある（w ≠ 0 で `∼four`、w = 1 で `five`）が、`¬ ReversalStep ℒₖ ℚ (Pack w)`（MDG3 と同じ形）。
+   - (d) 数の記号をもたない言語 `ℒ⊕` では、どの w でも x ↦ x − w が全射の埋め込み `shift w : ℚ ↪ₛ[ℒ⊕] Pack w`。したがってどの `ℒ⊕` の文も ℚ と `Pack w` で真理値が同じで、`¬ ReversalStep ℒ⊕ ℚ (Pack w)`（埋め込みはあるが反転文がない）。
+   - (e) 数を 1 と + から作る言語 `ℒᵣ`: どの w でも `Pack w ⊧ “2 + 2 = 4”`（Foundation の数字項 n + 1 は `Pack w` で (n + 1) + n·w を表し、両辺とも 4 + 3w）。w ≠ 0 なら `“0 + 0 = 0”` が ℚ で真、`Pack w` で偽なので、埋め込み `ℚ ↪ₛ[ℒᵣ] Pack w` はない。`∼“0 + 0 = 0”` は反転するが、`¬ ReversalStep ℒᵣ ℚ (Pack w)`。
+2. **Lean**: `kappaLang`（`ℒₖ`）, `plusLang`（`ℒ⊕`）, `addModel`, `packModel`, `addModelP`, `packModelP`, `packRing`, `Pack`, `four`, `five`, `fourR`, `zeroR`; (a) `rat_models_four`, `rat_models_not_five`, `pack_models_not_four`, `pack_one_models_five`; (b) `packModel_zero`, `packModelP_zero`, `packRing_zero`, `idPack`, `idPack_surjective`; (c) `isEmpty_of_open`, `isEmpty_kappa`, `flips_not_four`, `flips_five`, `not_reversalStep_kappa`; (d) `shift`, `shift_surjective`, `evalOn_univ`, `models_iff_of_surjective`, `not_flips_of_surjective`, `models_iff_plus`, `not_reversalStep_plus`; (e) `pack_val_numeral`, `pack_models_fourR`, `rat_models_fourR`, `pack_models_not_zeroR`, `isEmpty_ring`, `flips_not_zeroR`, `not_reversalStep_ring`。
+3. **状態**: 証明済み。w = 1 と w = −1/2 で実例化済み。
+4. **依存**: (c)(e) の「埋め込みはない」は MDG1(b)（量化子のない文は存在的）。(d) の系は MDG1(f)。(e) の数字項は Foundation の `numeral_add_two`。
+5. **新規性**: なし。初等的な計算である。
+6. **言えないこと**:
+   - (b) の「特殊な場合」は、**パラメータ w を 0 にすること**である。MDG1(f) の「古い領域への制限」（埋め込みの像への制限）とは別の操作である。`ℒₖ` と `ℒᵣ` では（w ≠ 0 のとき）埋め込みがないので、像への制限という操作そのものがない。どちらが著者の「前の段を特殊な場合として含む」に当たるかは判断しない。
+   - 言語の選択（どの記号の意味を固定するか）を Lean は決めない。MDG8 は、選んだ言語ごとの帰結を並べるだけである。
+   - 梱包が「概念の拡張」として正当かどうか、Lakatos の Kappa・Gamma・Theta のどの立場が正しいかは扱わない。Lakatos の読解が正しいかも検証していない（指示書 §1）。
+   - 構造はどれも同じ台 ℚ の上にある。通常の加法から梱包への移行は、ℕ→ℤ などと違い、台を広げる移行ではない。
+
+**MDG8 の表**（§I8 の三者比較とは別の表。移行はすべて「ℚ（通常の加法）→ Pack w（梱包）」）:
+
+| 言語 | 埋め込みがあるか | Kappa の文の真理値（ℚ → Pack w） | `ReversalStep` か |
+|---|---|---|---|
+| `ℒₖ`（⊕、⌜n⌝、=） | w ≠ 0 でなし（`four` が ℚ で真、`Pack w` で偽。量化子のない文） | `four`: 真 → 偽（w ≠ 0）。`five`: 偽 → 真（w = 1）。反転文はある | でない（w ≠ 0） |
+| `ℒ⊕`（⊕、=） | どの w でもあり（x ↦ x − w。全射なので同型） | Kappa の文は書けない（数の記号がない）。どの文も真理値が同じ | でない（反転文がない） |
+| `ℒᵣ`（0、1、+、·、=。数字は 1 と + から作る） | w ≠ 0 でなし（`0 + 0 = 0` が ℚ で真、`Pack w` で偽） | `fourR`（2 + 2 = 4）: 真 → 真（どの w でも）。`∼“0 + 0 = 0”` は反転する | でない（w ≠ 0） |
+| （参考）どの言語でも w = 0 | あり（恒等写像。構造として等しい） | 変わらない | でない |
+
+事実の記録:
+- 三つの言語のどれでも、通常の加法 → 梱包（w ≠ 0）は `ReversalStep` ではない。ただし理由が違う。`ℒₖ`・`ℒᵣ` では埋め込みがない（反転文はある）。`ℒ⊕` では埋め込みはある（反転文がない）。
+- Kappa の「2+2=5」（`five` が偽 → 真）が書けるのは `ℒₖ` だけである。`ℒᵣ` では数字が + から作られるので、2 + 2 = 4 は梱包でも真のままである。
+
+**著者に返す判断**（Claude Code は判断しない。指示書 §5）:
+1. Lakatos の書いた Kappa の例（数を重さとして固定する）に当たるのは `ℒₖ` か。
+2. 言語にどの記号を入れるか（どの意味を固定するか）を、Lakatos p.103 の Theta の「拡張してよい構成要素を一部に限る」、p.124 の「意味を固定した形成的用語」と対応させるか。
+3. D1(a) の「特殊な場合として含む」は、パラメータの特殊化（(b)）を含まず、構造の埋め込みに限る、という読みでよいか（D4 の確認）。

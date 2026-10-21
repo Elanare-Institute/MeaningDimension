@@ -300,3 +300,121 @@ example (n : ℕ) : ∃ σ, Settles (ascent 𝗜𝚺₁ n).theory (ascent 𝗜�
   (ascent_refineStep_iff 𝗜𝚺₁ n).mp (ascent_refineStep 𝗜𝚺₁ n)
 
 end NonVacuity
+
+/-! ## MDG8 (spec §7): Kappa's packing -/
+
+section MDG8
+
+open MeaningDimension.Generation.Kappa
+
+/-! ### §7.2 definitions -/
+
+-- `ℒₖ`: `⊕`, `⌜n⌝`, `=`. `ℒ⊕`: `⊕`, `=` (J12).
+example : Language.Func ℒₖ 2 = KappaFunc 2 := rfl
+example : Language.Func ℒₖ 0 = KappaFunc 0 := rfl
+example (n : ℕ) : Language.Func ℒₖ 0 := KappaFunc.num n
+example : Language.Func ℒ⊕ 2 = PlusFunc 2 := rfl
+example {k : ℕ} (f : Language.Func ℒ⊕ k) : k = 2 := by cases f; rfl
+example {k : ℕ} (r : Language.Rel ℒₖ k) : k = 2 := by cases r; rfl
+example {k : ℕ} (r : Language.Rel ℒ⊕ k) : k = 2 := by cases r; rfl
+
+-- The structures.
+example (a b : ℚ) : addModel.func (KappaFunc.plus : Language.Func ℒₖ 2) ![a, b] = a + b := rfl
+example (n : ℕ) (v : Fin 0 → ℚ) : addModel.func (KappaFunc.num n : Language.Func ℒₖ 0) v = n := rfl
+example (a b : ℚ) : addModel.rel (RingRel.eq : Language.Rel ℒₖ 2) ![a, b] ↔ a = b := Iff.rfl
+example (w a b : ℚ) : (packModel w).func (KappaFunc.plus : Language.Func ℒₖ 2) ![a, b] = a + b + w := rfl
+example (w : ℚ) (n : ℕ) (v : Fin 0 → ℚ) :
+    (packModel w).func (KappaFunc.num n : Language.Func ℒₖ 0) v = n := rfl
+example (w a b : ℚ) : (packModel w).rel (RingRel.eq : Language.Rel ℒₖ 2) ![a, b] ↔ a = b := Iff.rfl
+example (a b : ℚ) : addModelP.func (PlusFunc.plus : Language.Func ℒ⊕ 2) ![a, b] = a + b := rfl
+example (w a b : ℚ) : (packModelP w).func (PlusFunc.plus : Language.Func ℒ⊕ 2) ![a, b] = a + b + w := rfl
+example (w a b : ℚ) : (packModelP w).rel (RingRel.eq : Language.Rel ℒ⊕ 2) ![a, b] ↔ a = b := Iff.rfl
+example (w a b : ℚ) : (packRing w).func Language.Add.add ![a, b] = a + b + w := rfl
+example (w a b : ℚ) : (packRing w).func Language.Mul.mul ![a, b] = a * b := rfl
+example (w : ℚ) (v : Fin 0 → ℚ) : (packRing w).func Language.Zero.zero v = 0 := rfl
+example (w : ℚ) (v : Fin 0 → ℚ) : (packRing w).func Language.One.one v = 1 := rfl
+example (w a b : ℚ) : (packRing w).rel Language.Eq.eq ![a, b] ↔ a = b := Iff.rfl
+
+-- Instances (J11).
+example (w : ℚ) : Pack w = ℚ := rfl
+example : (inferInstance : Tarski.Structure ℒₖ ℚ) = addModel := rfl
+example : (inferInstance : Tarski.Structure ℒ⊕ ℚ) = addModelP := rfl
+example : (inferInstance : Tarski.Structure ℒᵣ ℚ) = ringModel ℚ := rfl
+example (w : ℚ) : (inferInstance : Tarski.Structure ℒₖ (Pack w)) = packModel w := rfl
+example (w : ℚ) : (inferInstance : Tarski.Structure ℒ⊕ (Pack w)) = packModelP w := rfl
+example (w : ℚ) : (inferInstance : Tarski.Structure ℒᵣ (Pack w)) = packRing w := rfl
+
+-- The sentences (J13).
+example (n : ℕ) : num n = Semiterm.func (KappaFunc.num n : Language.Func ℒₖ 0) ![] := rfl
+example : four = Semiformula.rel (RingRel.eq : Language.Rel ℒₖ 2)
+    ![Semiterm.func (KappaFunc.plus : Language.Func ℒₖ 2) ![num 2, num 2], num 4] := rfl
+example : five = Semiformula.rel (RingRel.eq : Language.Rel ℒₖ 2)
+    ![Semiterm.func (KappaFunc.plus : Language.Func ℒₖ 2) ![num 2, num 2], num 5] := rfl
+example : fourR = (“2 + 2 = 4” : Sentence ℒᵣ) := rfl
+example : zeroR = (“0 + 0 = 0” : Sentence ℒᵣ) := rfl
+
+/-! ### MDG8 -/
+
+-- (a)
+example : ℚ↓[ℒₖ] ⊧ four := rat_models_four
+example : ℚ↓[ℒₖ] ⊧ ∼five := rat_models_not_five
+example {w : ℚ} (hw : w ≠ 0) : (Pack w)↓[ℒₖ] ⊧ ∼four := pack_models_not_four hw
+example : (Pack 1)↓[ℒₖ] ⊧ five := pack_one_models_five
+
+-- (b)
+example : packModel 0 = addModel := packModel_zero
+example : packModelP 0 = addModelP := packModelP_zero
+example : packRing 0 = ringModel ℚ := packRing_zero
+example (x : ℚ) : idPack x = x := rfl
+example : Function.Surjective idPack := idPack_surjective
+
+-- (c)
+section Lemma
+variable {L : Language} {M M' : Type} [Nonempty M] [Nonempty M'] [Tarski.Structure L M]
+  [Tarski.Structure L M']
+example {σ : Sentence L} (hσ : σ.Open) (h : M↓[L] ⊧ σ) (h' : M'↓[L] ⊧ ∼σ) :
+    IsEmpty (M ↪ₛ[L] M') := isEmpty_of_open hσ h h'
+end Lemma
+example {w : ℚ} (hw : w ≠ 0) : IsEmpty (ℚ ↪ₛ[ℒₖ] Pack w) := isEmpty_kappa hw
+example {w : ℚ} (hw : w ≠ 0) : Flips ℒₖ ℚ (Pack w) (∼four) := flips_not_four hw
+example : Flips ℒₖ ℚ (Pack 1) five := flips_five
+example {w : ℚ} (hw : w ≠ 0) : ¬ ReversalStep ℒₖ ℚ (Pack w) := not_reversalStep_kappa hw
+
+-- (d)
+example (w x : ℚ) : shift w x = x - w := rfl
+example (w : ℚ) : Function.Surjective (shift w) := shift_surjective w
+section Lemma
+variable {L : Language} {M M' : Type} [Nonempty M] [Nonempty M'] [Tarski.Structure L M]
+  [Tarski.Structure L M']
+example (Θ : M ↪ₛ[L] M') (hΘ : Function.Surjective Θ) (σ : Sentence L) :
+    M↓[L] ⊧ σ ↔ M'↓[L] ⊧ σ := models_iff_of_surjective Θ hΘ σ
+end Lemma
+example (w : ℚ) (σ : Sentence ℒ⊕) : ℚ↓[ℒ⊕] ⊧ σ ↔ (Pack w)↓[ℒ⊕] ⊧ σ := models_iff_plus w σ
+example (w : ℚ) : ¬ ReversalStep ℒ⊕ ℚ (Pack w) := not_reversalStep_plus w
+
+-- (e)
+example (w : ℚ) : (Pack w)↓[ℒᵣ] ⊧ fourR := pack_models_fourR w
+example : ℚ↓[ℒᵣ] ⊧ fourR := rat_models_fourR
+example {w : ℚ} (hw : w ≠ 0) : IsEmpty (ℚ ↪ₛ[ℒᵣ] Pack w) := isEmpty_ring hw
+example {w : ℚ} (hw : w ≠ 0) : Flips ℒᵣ ℚ (Pack w) (∼zeroR) := flips_not_zeroR hw
+example {w : ℚ} (hw : w ≠ 0) : ¬ ReversalStep ℒᵣ ℚ (Pack w) := not_reversalStep_ring hw
+
+/-! ### Non-vacuity: `w = 1` (Lakatos's numbers) and `w = -1/2` -/
+
+example : (Pack 1)↓[ℒₖ] ⊧ ∼four := pack_models_not_four one_ne_zero
+example : IsEmpty (ℚ ↪ₛ[ℒₖ] Pack 1) := isEmpty_kappa one_ne_zero
+example : ¬ ReversalStep ℒₖ ℚ (Pack 1) := not_reversalStep_kappa one_ne_zero
+example : Nonempty (ℚ ↪ₛ[ℒ⊕] Pack 1) := ⟨shift 1⟩
+example : ¬ ReversalStep ℒ⊕ ℚ (Pack 1) := not_reversalStep_plus 1
+example : (Pack 1)↓[ℒᵣ] ⊧ fourR := pack_models_fourR 1
+example : ¬ ReversalStep ℒᵣ ℚ (Pack 1) := not_reversalStep_ring one_ne_zero
+
+example : (Pack (-1/2))↓[ℒₖ] ⊧ ∼four := pack_models_not_four (by norm_num)
+example : IsEmpty (ℚ ↪ₛ[ℒₖ] Pack (-1/2)) := isEmpty_kappa (by norm_num)
+example : Flips ℒₖ ℚ (Pack (-1/2)) (∼four) := flips_not_four (by norm_num)
+example : ¬ ReversalStep ℒₖ ℚ (Pack (-1/2)) := not_reversalStep_kappa (by norm_num)
+example : ¬ ReversalStep ℒ⊕ ℚ (Pack (-1/2)) := not_reversalStep_plus (-1/2)
+example : IsEmpty (ℚ ↪ₛ[ℒᵣ] Pack (-1/2)) := isEmpty_ring (by norm_num)
+example : Flips ℒᵣ ℚ (Pack (-1/2)) (∼zeroR) := flips_not_zeroR (by norm_num)
+
+end MDG8

@@ -7,6 +7,8 @@
 - **D8**: ACSI を細分形と同一視しない。細分は ACSI の成長の一つの型である。
 - **D9**: 選択（重要でない区別を同一視する）型の成長は、現在のモデルでは表していない。
 
+追加指示書 `CLAUDE_CODE_MDG8_KAPPA_INSTRUCTIONS.md`（2026-10-21）により、§7（MDG8、調整 J11–J16）を加えた。
+
 ## 0. 背景
 
 - `math_verification_report.md` §H の同型（CR）は、痕跡の長さだけで決まり、ACSI とゲーデルの上昇を区別しない。
@@ -166,3 +168,75 @@
 - **追加（J10・MDG1(f)(g)）**: 古い領域に制限した文の保存。全称文が取り消されるのは制限せずに評価したときであり、古い領域に制限すれば前の段の文はすべて保たれることを示す。
 - **追加（MDG5(f)）**: J8 の読みでの、細分形と未決定形の一致。
 - **著者の決定 D8・D9**: 冒頭に記録した。D9 の裏づけとして MDG6(d) を加える。
+
+## 7. MDG8: Kappa の「2+2=5」と埋め込みの条件（2026-10-21 追加）
+
+典拠: 著者の追加指示書 `CLAUDE_CODE_MDG8_KAPPA_INSTRUCTIONS.md`（2026-10-21）。D1–D9 はそのまま従う（とくに D4: 「含む」は構造の埋め込みで読む）。Lakatos の読解が正しいかは検証の対象外とし、指示書 §0 の要約（2 ポンドの品物二つを 1 ポンドの箱で受け取ると「2 と 2 で 5 ポンド」）を前提に使う。名前空間は `MeaningDimension.Generation.Kappa`、ファイルは `MeaningDimension/Generation/Packing.lean`。
+
+### 7.1 指示書からの調整（Claude による）
+
+| ID | 指示書 | この仕様での扱い |
+|---|---|---|
+| J11 | 構造 `addModel`、`packModel w`（台はどちらも ℚ） | Lean の `Tarski.Structure` は型クラスなので、同じ型 ℚ に二つの構造を同時に入れられない。構造そのものは定義 `addModel`、`packModel w : Tarski.Structure ℒₖ ℚ` として置く。インスタンスとしては、ℚ に `addModel` を、型の別名 `Pack w := ℚ` に `packModel w` を入れる。指示書の `addModel ↪ₛ[ℒₖ] packModel w` は `ℚ ↪ₛ[ℒₖ] Pack w` と書く。`ℒ⊕` の構造（`addModelP`、`packModelP w`）と `ℒᵣ` の構造 `packRing w` も同じようにする。ℚ の `ℒᵣ` 構造は既存の `ringModel` である |
+| J12 | 言語 `ℒₖ`、`ℒ⊕` | 関数記号を帰納型で定める。`ℒₖ` は ⊕（2 項）と、各 n : ℕ の定数記号 ⌜n⌝。`ℒ⊕` は ⊕ だけ。関係記号はどちらも `=` だけで、`ℒᵣ` の `RingRel` を流用する。Lean 名は `kappaLang`（記法 `ℒₖ`）、`plusLang`（記法 `ℒ⊕`） |
+| J13 | 文 `four`、`five` | Foundation の “…” 記法は ⌜n⌝ を数字項に読むので使わず、原子論理式 `rel (=) ![⌜2⌝ ⊕ ⌜2⌝, ⌜4⌝]` として直接つくる |
+| J14 | (c)・(e) の「埋め込みはない」 | 二つを一つの補題から出す。量化子のない文 σ が M で真、M' で偽なら、M から M' への埋め込みはない（MDG1(a)）。(c) は σ = `four`、(e) は σ = `zeroR := “0 + 0 = 0”`（`ℒᵣ`）に使う |
+| J15 | (d) の系「どの `ℒ⊕` の文も真理値が同じ」 | 全射の埋め込みについての一般の補題として示す。MDG1(f) で、像が台全体になる場合である（全体に制限した評価は、制限しない評価と同じ） |
+| J16 | 追加（指示書にない。Claude による） | (c) を一般の w ≠ 0 でも反転文つきで述べる（`∼four` が反転する）。(e) に、MDG3 と同じ形の系（`Flips ℒᵣ ℚ (Pack w) (∼zeroR)` と `¬ ReversalStep ℒᵣ ℚ (Pack w)`）を加える。(b) を `ℒ⊕`・`ℒᵣ` でも述べる |
+
+### 7.2 定義（名前空間 `MeaningDimension.Generation.Kappa`）
+
+- `ℒₖ`: 関数記号は `plus`（2 項、⊕）と `num n`（0 項、⌜n⌝、n : ℕ）。関係記号は `=` だけ。
+- `ℒ⊕`: 関数記号は `plus`（2 項、⊕）だけ。関係記号は `=` だけ。
+- `addModel : Tarski.Structure ℒₖ ℚ`: ⊕ を a + b、⌜n⌝ を (n : ℚ)、`=` を等号と解釈する。
+- `packModel w : Tarski.Structure ℒₖ ℚ`（w : ℚ）: ⊕ を a + b + w、⌜n⌝ を (n : ℚ)、`=` を等号と解釈する。
+- `addModelP`、`packModelP w : Tarski.Structure ℒ⊕ ℚ`: 同じく、⊕ を a + b、a + b + w と解釈する。
+- `packRing w : Tarski.Structure ℒᵣ ℚ`: + を a + b + w と解釈し、0、1、·、`=` は通常どおり。
+- `Pack w := ℚ`（型の別名）。インスタンス: ℚ には `addModel`（`ℒₖ`）、`addModelP`（`ℒ⊕`）、既存の `ringModel`（`ℒᵣ`）。`Pack w` には `packModel w`、`packModelP w`、`packRing w`（J11）。
+- `four := ⌜2⌝ ⊕ ⌜2⌝ = ⌜4⌝`、`five := ⌜2⌝ ⊕ ⌜2⌝ = ⌜5⌝`（`Sentence ℒₖ`、J13）。
+- `fourR := “2 + 2 = 4”`、`zeroR := “0 + 0 = 0”`（`Sentence ℒᵣ`。数字は Foundation の数字項）。
+
+### 7.3 命題
+
+**MDG8（Kappa の梱包）**
+
+- (a) 真理値。
+  - `ℚ ⊧ four`、`ℚ ⊧ ∼five`（`ℒₖ`、`addModel`）。
+  - w ≠ 0 なら `Pack w ⊧ ∼four`。
+  - `Pack 1 ⊧ five`（Lakatos の数値）。
+- (b) 特殊な場合はパラメータの値である。
+  - 構造として等しい: `packModel 0 = addModel`、`packModelP 0 = addModelP`、`packRing 0 = ringModel ℚ`。
+  - 恒等写像は `ℒₖ` の埋め込み `ℚ ↪ₛ[ℒₖ] Pack 0` で、全射である。
+- (c) 数を固定すると埋め込みはない。
+  - 一般の補題（J14）: σ が量化子をもたず、`M ⊧ σ`、`M' ⊧ ∼σ` なら `IsEmpty (M ↪ₛ[L] M')`。
+  - w ≠ 0 なら `IsEmpty (ℚ ↪ₛ[ℒₖ] Pack w)`。
+  - w ≠ 0 なら `Flips ℒₖ ℚ (Pack w) (∼four)`（J16）。
+  - `Flips ℒₖ ℚ (Pack 1) five`。
+  - w ≠ 0 なら `¬ ReversalStep ℒₖ ℚ (Pack w)`。とくに `¬ ReversalStep ℒₖ ℚ (Pack 1)`。
+- (d) 数の記号がなければ同型になる。
+  - どの w についても、x ↦ x − w は `ℒ⊕` の埋め込み `shift w : ℚ ↪ₛ[ℒ⊕] Pack w` で、全射である。
+  - 一般の補題（J15）: 埋め込み Θ が全射なら、どの文 σ についても `M ⊧ σ ↔ M' ⊧ σ`。
+  - 系: どの w、どの `ℒ⊕` の文 σ についても `ℚ ⊧ σ ↔ Pack w ⊧ σ`。
+  - したがって、どの w についても `¬ ReversalStep ℒ⊕ ℚ (Pack w)`（埋め込みはあるが、反転文がない）。とくに w = 1。
+- (e) 数を加法で作る言語 `ℒᵣ`。
+  - どの w についても `Pack w ⊧ fourR`。`ℚ ⊧ fourR`。
+  - w ≠ 0 なら `IsEmpty (ℚ ↪ₛ[ℒᵣ] Pack w)`（J14。`zeroR` は ℚ で真、`Pack w` で偽）。
+  - w ≠ 0 なら `Flips ℒᵣ ℚ (Pack w) (∼zeroR)`、`¬ ReversalStep ℒᵣ ℚ (Pack w)`（J16）。
+- (f) まとめの表（報告 §I11）。行は `ℒₖ`・`ℒ⊕`・`ℒᵣ`、列は「埋め込みがあるか」「Kappa の文の真理値」「`ReversalStep` か」。
+
+**非空虚性**: (a)–(e) は具体例そのものである。w = 1（Lakatos の数値）と、一般の w ≠ 0 の両方で述べる。テストでは w = 1 と w = −1/2 で実例化する。
+
+### 7.4 証明の見通し
+
+- (a) は有理数の計算。(b) は構造の外延性（関数記号ごとに `add_zero`）。
+- (c) の補題は MDG1(b)（量化子のない文は存在的）。`four` は `addModel` で真、`packModel w` では 2 + 2 + w = 4 から w = 0 になるので偽。
+- (d) (a − w) + (b − w) + w = (a + b) − w。全射の補題は MDG1(f) と、全体に制限した評価が `Eval` と一致すること（論理式についての帰納法）。
+- (e) 数字項は 1 と + から作られる（`numeral (n + 2) = numeral (n + 1) + 1`）。`Pack w` での値は (n + 1) + n·w になり、2 + 2 と 4 はどちらも 4 + 3w。`zeroR` は `Pack w` で 0 + 0 + w = 0、つまり w = 0 になるので偽。
+
+### 7.5 言えないこと
+
+- (b) の「特殊な場合」は、パラメータ w を 0 にすることである。MDG1(f) の「古い領域への制限」（埋め込みの像への制限）とは別の操作である。どちらが著者の「前の段を特殊な場合として含む」に当たるかは判断しない（§5 と同じく著者が決める）。
+- 言語の選択（どの記号の意味を固定するか）を Lean は決めない。MDG8 は、選んだ言語ごとの帰結を並べるだけである。
+- 梱包が「概念の拡張」として正当かどうか、Lakatos の Kappa・Gamma・Theta のどの立場が正しいかは扱わない。
+- ここでの構造はどれも同じ台 ℚ の上にある。「重さのない加法」から「梱包」への移行は、台を広げる移行ではない。
+- 新規性: なし。初等的な計算である。

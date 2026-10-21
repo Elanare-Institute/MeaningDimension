@@ -1,3 +1,4 @@
 .lake/
 scratch/
 *.olean
+.DS_Store
