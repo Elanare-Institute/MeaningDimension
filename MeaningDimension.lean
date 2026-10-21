@@ -17,3 +17,4 @@ import MeaningDimension.Generation.Examples
 import MeaningDimension.Generation.Refinement
 import MeaningDimension.Generation.Godel
 import MeaningDimension.Generation.Conjugate
+import MeaningDimension.Generation.Packing
