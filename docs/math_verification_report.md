@@ -6,8 +6,8 @@
 
 | 項目 | 内容 |
 |---|---|
-| Lean ソース | `MeaningDimension/`。§A–D の対象は commit `54dc740` 以後変更なし。2026-10-19 に `MeaningDimension/ACSI/` を追加（§E）。2026-10-20 に `MeaningDimension/Godel/PresentationDependence.lean`（§G）と `MeaningDimension/Correspondence/`（§H）を追加 |
-| 検証 | `scripts/check_proofs.sh`（禁止構文の検査、`lake build`、`Tests/Spec.lean` の48件の仕様テスト、全宣言の公理監査、環境記録）。2026-10-11 に再実行し **ALL CHECKS PASSED**。2026-10-19 に `Tests/ACSISpec.lean` を加えて再実行し **ALL CHECKS PASSED**。2026-10-20 に `Tests/PresentationSpec.lean` を加えて再実行し **ALL CHECKS PASSED**（公理監査 259 定数）。同日 `Tests/CorrespondenceSpec.lean` を加えて再実行し **ALL CHECKS PASSED**（公理監査 357 定数） |
+| Lean ソース | `MeaningDimension/`。§A–D の対象は commit `54dc740` 以後変更なし。2026-10-19 に `MeaningDimension/ACSI/` を追加（§E）。2026-10-20 に `MeaningDimension/Godel/PresentationDependence.lean`（§G）、`MeaningDimension/Correspondence/`（§H）、`MeaningDimension/Generation/`（§I）を追加 |
+| 検証 | `scripts/check_proofs.sh`（禁止構文の検査、`lake build`、`Tests/Spec.lean` の48件の仕様テスト、全宣言の公理監査、環境記録）。2026-10-11 に再実行し **ALL CHECKS PASSED**。2026-10-19 に `Tests/ACSISpec.lean` を加えて再実行し **ALL CHECKS PASSED**。2026-10-20 に `Tests/PresentationSpec.lean` を加えて再実行し **ALL CHECKS PASSED**（公理監査 259 定数）。同日 `Tests/CorrespondenceSpec.lean` を加えて再実行し **ALL CHECKS PASSED**（公理監査 357 定数）。同日 `Tests/MDGSpec.lean` を加えて再実行し **ALL CHECKS PASSED**（公理監査 455 定数）。同日、著者側の FB で §I を改訂して再実行し **ALL CHECKS PASSED**（公理監査 492 定数）。著者の決定 D8・D9 と MDG6(d) を加えて再実行し **ALL CHECKS PASSED**（公理監査 497 定数） |
 | 依存公理 | 監査対象の81定数（2026-10-19 の監査では ACSI を含め226定数。自動生成の補助定数を含む）すべてが `[propext, Classical.choice, Quot.sound]` の部分集合（Lean 標準）。`sorry`・独自の `axiom`・`native_decide` なし |
 | 外部ライブラリ | FormalizedFormalLogic/Foundation `dfaa003d0c4533c89ca72ae513d9c055fd3fe7bf`、Mathlib `5ed2965256430c3649e86755f9576b54eca72435`、Lean 4.34.0 |
 | 記法 | `T.Δ₁`: T の公理集合の、IΣ₁ で証明可能に Δ₁ な表示（データ）。`Con_T`（Lean: `T.consistent`）: その表示から作った無矛盾性文。`T.Con = {Con_T}`、`T.Incon = {¬Con_T}`。`T ⪯ U`: T の定理はすべて U の定理。`T ⪱ U`: `T ⪯ U` かつ `U ⪯ T` でない。`T ≊ U`: 相互に ⪯。Σ₁ 健全（`SoundOnHierarchy 𝚺 1`）: 証明できる Σ₁ 文はすべて ℕ で真。`ℕ ⊧* T`: T の公理はすべて ℕ で真 |
@@ -427,3 +427,184 @@ Gödel 関係の形式化とは独立。仕様は `docs/acsi_spec.md`（実装�
    - AC9 と G6(b) が**同じ抽象命題の実例**であることを示しただけである。痕跡の同型（H4）には含まれない。
    - 差し出される項目は両側で異なる。ACSI 側は外から来る全く新しい経験のすべて、ゲーデル側は T と表示から作る無矛盾性文である（§G7）。両者が対応するか、つまり表示の選び方を「外から来る経験」とみなせるかは、著者が判断する。
 
+## I. 意味次元生成の三つの形（反転形・未決定形・細分形）と三者比較（MDG、2026-10-20 追加、同日改訂）
+
+- 指示書: `../CLAUDE_CODE_MDG_INSTRUCTIONS.md`（著者の決定 D1–D7）。
+- 仕様: `docs/mdg_spec.md`（実装前に固定。指示書からの調整 J1–J10 と、改訂 §6 を記録）。
+- Lean: `MeaningDimension/Generation/`。
+  - `Embedding.lean`: 埋め込み、反転文、MDG1（古い領域に制限した評価 `EvalOn` を含む）
+  - `RingLanguage.lean`: 環の言語 `ℒᵣ`（`<` なし）
+  - `Examples.lean`: MDG1(e)(g)、MDG2、MDG3
+  - `Refinement.lean`: 細分、MDG6
+  - `Godel.lean`: MDG4、MDG5
+  - `Conjugate.lean`: MDG7
+- テスト: `Tests/MDGSpec.lean`（仕様の文言の書き起こしと、`singletonMaking`・𝗜𝚺₁・𝗣𝗔 での実例化）。
+- 依存公理はすべて標準3公理の部分集合。
+
+**改訂（2026-10-20、著者側の FB による。仕様 §6）**:
+- **名前**: 「矛盾の扉」「未決定性の扉」をやめ、**反転形**（偽→真）、**未決定形**（未決定→決定）、**細分形**（区別されない→区別される）と呼ぶ。Lean 名は `ReversalStep`（旧 `GenStep`）、`Settles`（旧 `UndecidedDoor`）、`RefineStep`。定義の中身は変えていない。
+- **言語**: ℝ→ℂ の例で ℂ に部分順序 `ComplexOrder` を入れるのをやめた。数学の例（MDG1(e)・MDG2・MDG3）は、`<` を含まない環の言語 `ℒᵣ` で述べ直した。`<` を使うのは MDG7 だけである。
+- **追加**: 古い領域に制限した文の保存（MDG1(f)(g)）と、J8 の読みでの細分形と未決定形の一致（MDG5(f)）。
+
+**著者の決定（2026-10-20、FB の後）**:
+- **D8**: ACSI を細分形と同一視しない。細分は ACSI の成長の一つの型である。
+- **D9**: 選択（重要でない区別を同一視する）型の成長は、現在のモデルでは表していない。裏づけとして MDG6(d) を加えた。
+
+**主な調整**（詳細は仕様 §1）:
+- **J1**: 埋め込みは Foundation の `Tarski.Structure.Embedding`（`M ↪ₛ[L] M'`）をそのまま使う。
+- **J2**（改訂）: 数学の例の言語は環の言語 `ℒᵣ`（`0, 1, +, ·, =`）。Foundation にないので、このプロジェクトで定義した。
+- **J5**: 理論の「区別」は、証明可能な同値とする。
+- **J6**: ℚ(√2) の代わりに ℤ√2 を使う。
+- **J8**（指示書にない追加）: MDG5 の結論が J5 の読みに依存するかを確かめる。
+- **J9**: 三つの形の名前。英語の説明文では "contradiction" を形の名前に使わない。
+- **J10**: 古い領域に制限した評価 `EvalOn` は、相対化した論理式の真理条件を直接与える。
+
+### I1. 前の段を壊さない（MDG1）
+1. **命題**: 埋め込み Θ : M ↪ M' について、次が成り立つ。
+   - (a) 量化子のない論理式は、M の元をパラメータに含めても、真理値が変わらない。
+   - (b) 存在的な論理式は、M で真なら M' でも真。
+   - (c) 全称的な論理式は、M' で真なら M でも真。
+   - (d) 存在文は真から偽に反転しない。全称文は偽から真に反転しない。
+   - (e) 全称文は、制限せずに評価すると真から偽に反転しうる。ℝ→ℂ で、全称文 `∼sentenceC`（∀x, x·x+1 ≠ 0）は ℝ で真、ℂ で偽。
+   - (f) **古い領域に制限すれば、すべての論理式の真理値が保たれる。** 量化子をすべて Θ の像に制限して M' で評価すると、どの論理式も M での真理値と一致する。文については、M で真の文は真のまま、偽の文は偽のまま残る。
+   - (g) ℝ→ℂ で、ℂ において次の二つが同時に成り立つ。
+     - 古い領域 ℝ に制限した `∼sentenceC`（∀x ∈ ℝ, x·x+1 ≠ 0）は真（狭い読み）。
+     - 制限しない `∼sentenceC` は偽（広い読み）。
+2. **Lean**: `eval_iff_of_open`, `eval_of_isExistential`, `eval_of_isUniversal`, `models_of_isExistential`, `models_of_isUniversal`, `not_true_false_of_isExistential`, `not_flips_of_isUniversal`, `neg_sentenceC_isUniversal`, `neg_sentenceC_true_false`, `EvalOn`, `eval_iff_evalOn`, `models_iff_evalOn`, `realComplex_restricted_unrestricted`。
+3. **状態**: 証明済み。
+4. **依存**: (a) は Foundation の `Semiformula.eval_hom_iff_of_open`。(b)(c) は存在的・全称的な論理式（`IsExistential`, `IsUniversal`、J3）についての帰納法。(f) は論理式についての再帰で、項の値は Foundation の `HomClass.val_term`、関係記号は `EmbeddingClass.rel` による。
+5. **新規性**: なし（モデル理論の標準的な事実。(f) は相対化の補題）。
+6. **言えないこと**:
+   - 指示書の注釈「新しい段は前の段の事実を一つも取り消さず」は、**制限せずに評価すると**、量化子のない事実と存在文についてだけ正しい。全称文の事実は取り消されうる（(e)、A7 の `Th(ℝ) ⊄ Th(ℂ)`）。
+   - 古い領域に制限して評価すると、前の段の文はすべて保たれる（(f)）。取り消されるのは「ℝ がすべてだ」という読み、つまり古い文を新しい領域全体で評価し直したときの真理値である。
+   - (f) はどの埋め込みでも成り立つ。反転形の一歩に特有の性質ではない。
+   - (f) の制限先は埋め込み Θ の像であり、Θ の選び方による。埋め込みの一意性は扱っていない。
+   - `EvalOn` は、相対化した論理式 φᴿ の真理条件を直接与えたものである。R を記号として加えた言語や、φᴿ そのもの（構文）は作っていない（J10）。
+
+### I2. 数学の例は反転形の一歩である（MDG2）
+1. **命題**: 次の三つは、いずれも `ReversalStep`（埋め込みがあり、かつ反転文がある）である。言語は環の言語 `ℒᵣ`。三つの反転文はいずれも存在文である。
+   - (a) ℕ→ℤ: `∃x (x + 5 = 3)` が ℕ で偽、ℤ で真。
+   - (b) ℚ→ℝ: `∃x (x · x = 2)` が ℚ で偽、ℝ で真。
+   - (c) ℝ→ℂ: `∃x (x · x + 1 = 0)` が ℝ で偽、ℂ で真。
+2. **Lean**: `ringLang`（記法 `ℒᵣ`）, `ringModel`, `ringEmbedding`, `natInt`, `ratReal`, `realComplex`, `sentenceZ`, `sentenceR`, `sentenceC`, `reversalStep_nat_int`, `reversalStep_rat_real`, `reversalStep_real_complex`, `sentenceZ_isExistential`, `sentenceR_isExistential`, `sentenceC_isExistential`。
+3. **状態**: 証明済み。文は指示書のとおり（J4）。ℂ に順序は入れていない。
+4. **依存**: Mathlib の `Nat.cast`, `Rat.cast`, `Complex.ofReal`, `irrational_sqrt_two`。
+5. **新規性**: なし。
+6. **言えないこと**: 意味次元生成が**起きた後の**構造の関係を述べるだけで、生成の過程は表さない。
+
+### I3. 埋め込みの条件は必要である（MDG3）
+1. **命題**:
+   - ℂ から ℝ への `ℒᵣ` の埋め込みはない。
+   - ℂ→ℝ にも反転文（`∼sentenceC`。ℂ で偽、ℝ で真）はある。
+   - それでも、ℂ→ℝ は `ReversalStep` ではない。
+2. **Lean**: `isEmpty_complex_real`, `flips_complex_real`, `not_reversalStep_complex_real`。
+3. **状態**: 証明済み。
+4. **依存**: MDG1(b)。埋め込みがあれば、ℂ で真の存在文 `sentenceC` が ℝ でも真になり、ℝ で x·x+1 ≠ 0 であることに反する。
+5. **新規性**: なし。
+6. **言えないこと**: —
+
+### I4. ゲーデルの上昇は反転形を通らず、未決定形を通る（MDG4）
+1. **命題**:
+   - (a) `T ⪯ T'` で T' が無矛盾なら、T で反証された文を T' は証明しない（理論の反転 `TheoryFlip` はない）。
+   - (b) A3 の上昇（T は `[T.Δ₁]`、`𝗜𝚺₁ ⪯ T`、Σ₁ 健全）のどの段 Tₙ→Tₙ₊₁ にも、理論の反転はない。
+   - (c) 各段は未決定形の一歩である（`Settles`）。`Con(Tₙ)` は Tₙ で証明も反証もできず、Tₙ₊₁ で証明できる。
+2. **Lean**: `TheoryFlip`, `Settles`, `not_theoryFlip`, `ascent_not_theoryFlip`, `ascent_settles`。
+3. **状態**: 証明済み。𝗜𝚺₁ と 𝗣𝗔 で実例化済み。
+4. **依存**: (a) は A8(a)。(b) は A3（各段の無矛盾性）。(c) は A3 の `G2_unprovable`、Foundation の `con_unrefutable`（各段の Σ₁ 健全性、A2 を使う）。
+5. **新規性**: なし。
+6. **言えないこと**: 構造のあいだの反転（`Flips`）と理論のあいだの反転（`TheoryFlip`）は別の定義である。ゲーデルの上昇を構造の側から見ること（たとえば各段の模型）はしていない。
+
+### I5. ゲーデルの上昇と細分形（MDG5）
+1. **命題**:
+   - (a) `T ⪯ T'` なら、T で証明可能な同値は T' でも証明可能。
+   - (b) 理論の枠組み `provFramework T`（評価述語は「θ と証明可能に同値」）での同一は、T での証明可能な同値と一致する。
+   - (c) `T ⪯ T'` なら、この枠組みで区別の反転はなく、`RefineStep` でない。
+   - (d) A3 の上昇のどの段も、この枠組みでは `RefineStep` でない。
+   - (e) **（J8。読みへの依存）** 上昇の累積の枠組み `ascentFramework T n`（評価述語は「k ≤ n の各段 Tₖ で証明できる」）では、A3 の仮定のもとで、**どの段も `RefineStep` である**。反転する対は `Con(Tₙ)` と `∼Con(Tₙ)` で、T₀…Tₙ のどれでも証明できず、Tₙ₊₁ では一方だけが証明できる。
+   - (f) **（J8 での細分形と未決定形の一致）** 同じ仮定のもとで、どの段 n についても次が成り立つ。
+     - Tₙ₊₁ が σ を決めるなら（`Settles Tₙ Tₙ₊₁ σ`）、σ と ∼σ は段 n では区別されず、段 n+1 で区別される。
+     - 逆に、段 n+1 で初めて区別される対があれば、その一方は Tₙ で未決定で、Tₙ₊₁ で証明される。
+     - したがって、J8 の枠組みで段 n→n+1 が細分形の一歩であることと、未決定形の一歩であることは同値である。
+2. **Lean**: `provFramework`, `provable_iff_mono`, `provFramework_same_iff`, `not_distinctionFlip_provFramework`, `not_refineStep_provFramework`, `ascent_not_refineStep`, `ascentFramework`, `ascent_le_of_le`, `ascentFramework_refines`, `ascent_refineStep`, `distinctionFlip_of_settles`, `settles_of_distinctionFlip`, `ascent_refineStep_iff`。
+3. **状態**: 証明済み。(d)(e)(f) は 𝗜𝚺₁ と 𝗣𝗔 で実例化済み。
+4. **依存**: (a)–(d) は弱化と命題論理。(e)(f) は MDG4(c) と、Tₙ₊₁ の無矛盾性。(f) の逆向きでは、区別が k ≤ n の段では起きないので段 n+1 で起きること、Tₙ で反証される側が Tₙ₊₁ で証明されれば Tₙ₊₁ が矛盾することを使う。
+5. **新規性**: なし。
+6. **言えないこと**:
+   - 指示書の結論「区別の細かさはゲーデルの上昇では起きない」は、**J5 の読み（区別 = 証明可能な同値）での結果**である。
+   - J8 の読みでは、上昇の各段は細分形の一歩になる。ただし (f) により、その中身は未決定形と同じものである。Con(Tₙ) と ∼Con(Tₙ) が区別されていなかったのは、まだ決まっていなかったからである。
+   - J5 の読みでは、三つの形は別々に保たれる。
+   - どちらの読みが著者の「区別の細かさ」に合うかは、著者が判断する（I9 の 4）。
+
+### I6. ACSI の取り込み（MDG6）
+1. **命題**:
+   - (a) 分類は真から偽に反転しない（AC5(c) の再掲）。
+   - (b) **判定の結果: 成り立つ。** 任意の作る働き M、自己 S、経験 e について、`evaluated (M.incorporate S e)` は `evaluated S` のすべての評価述語を保つ（`Refines`）。さらに、e、e' が S にとって全く新しく、e' が生成された範疇の外にあるとき、`(.inr e, .inr e')` は取り込みの前には区別されず（AC4(b)）、後には区別される（AC5(e)）。したがって `RefineStep (evaluated S) (evaluated (M.incorporate S e))`。
+   - (c) `singletonMaking : Making ℕ`、空の自己、経験 0、1 で成り立つ。
+   - (d) （D9 の裏づけ）取り込みは、区別されていたものを同一視しない。どんな過去 h についても、`evaluated (M.run S h)` は `evaluated S` のすべての評価述語を保つ。したがって、取り込みの後で同一なものは、取り込みの前にも同一だった。
+2. **Lean**: `Refines`, `DistinctionFlip`, `RefineStep`, `Refines.refl`, `Refines.trans`, `classifies_incorporate_of_classifies`, `refines_evaluated_incorporate`, `distinctionFlip_evaluated_incorporate`, `refineStep_evaluated_incorporate`, `same_of_same_evaluated_incorporate`, `refines_evaluated_run`, `same_of_same_evaluated_run`。(c) は `Tests/MDGSpec.lean`。
+3. **状態**: 証明済み。既存の `evaluated`・`incorporate` を変更していない。`refineStep_evaluated_incorporate` は公理を一つも使わない。
+4. **依存**: AC4(b)、AC5(e)。評価述語が保たれるのは、`incorporate` が範疇の列の先頭に一つ加えるだけだからである。(d) は (b) と、過去についての帰納法。
+5. **新規性**: なし。
+6. **言えないこと**:
+   - (b) は M3（`evaluated`）と M5（`incorporate`）の定義からほぼ直接に従う（§E3 の 2 と同じ種類の注意）。結果としては軽い。
+   - (b) は、ACSI の取り込みが細分形の一歩**でもある**ことを示すだけである。ACSI を細分形と同一視しない（D8）。
+   - 選択型の成長（重要でない区別を同一視する）は、現在のモデルでは表していない（D9）。(d) により、モデルの成長（取り込み）はこの型をとらない。モデルには区別の粗い枠組み（純粋経験の枠組み `Framework.pure`、自己同一の枠組み `selfIdentity`）もあるが、取り込みによってそこへ移ることはない。
+   - ACSI には「反証」にあたるものがない。「分類できる」は二値で、取り込み前の「分類できない」が、反証された状態か未決定の状態かを区別しない。そのため、ACSI の取り込みは `Flips`（構造）にも `TheoryFlip`・`Settles`（理論）にも当てはまらない。MDG5(f) のように細分形を未決定形に還元できるかどうかも、ACSI については問えない。
+
+### I7. 細分形の数学の例（MDG7。実現できた）
+1. **命題**: ℤ√2（Mathlib の `Zsqrtd`、d = 2）で、次が成り立つ。
+   - (a) 共役 a + b√2 ↦ a − b√2 は 0, 1, +, · を保存し、`<` は保存しない（0 < √2 だが 0 < −√2 でない）。
+   - (b) `<` を使わない論理式は、共役で真理値を変えない（パラメータなし）。
+   - (c) 環の枠組み（`<` を使わない論理式が定める述語）は √2 と −√2 を区別しない。
+   - (d) 順序環の枠組み（すべての論理式が定める述語）は、`0 < x` で √2 と −√2 を区別する。
+   - (e) したがって `RefineStep ringFramework orderedFramework`。
+2. **Lean**: `Z2`, `conj`, `conj_func`, `conj_not_preserves_lt`, `OrderFree`, `IsEqRel`, `val_equiv`, `eval_equiv_of_orderFree`, `definable`, `ringFramework`, `orderedFramework`, `posFormula`, `ringFramework_same`, `orderedFramework_not_same`, `refineStep_ring_ordered`。
+3. **状態**: 証明済み。実装は小さかった（約170行）。
+4. **依存**: Foundation の `eval_iff_of_equiv` と同じ帰納法を、`<` を使わない論理式に制限して自前で証明した。順序の計算は `decide`（カーネルでの評価。`native_decide` ではない）。
+5. **新規性**: なし。
+6. **言えないこと**:
+   - ℚ(√2) そのものではなく、ℤ√2 についての結果である（J6）。
+   - パラメータを許すと、環の言語でも √2 を名指しして区別できる。
+   - 「環の言語」は、ここでは `<` を使わない `ℒₒᵣ` の論理式（`OrderFree`）で表した。MDG2 の `ℒᵣ` とは別の扱いだが、表せる論理式は同じである（`ℒᵣ` の記号は `ℒₒᵣ` から `<` を除いたもの）。この対応は Lean では示していない。
+
+### I8. 三者比較
+
+| 移行 | 前の段を含む（D1(a)） | 反転形（偽→真） | 未決定形（未決定→決定） | 細分形（区別されない→区別される、D2） | 判定 |
+|---|---|---|---|---|---|
+| ℕ→ℤ | 埋め込みあり | あり（存在文 `sentenceZ`） | 対象外 | 調べていない | `ReversalStep` |
+| ℚ→ℝ | 埋め込みあり | あり（存在文 `sentenceR`） | 対象外 | 調べていない | `ReversalStep` |
+| ℝ→ℂ | 埋め込みあり（`ℒᵣ`。順序なし） | あり（存在文 `sentenceC`）。全称文 `∼sentenceC` は制限しないと真→偽、ℝ に制限すると真のまま | 対象外 | 調べていない | `ReversalStep` |
+| ℂ→ℝ | 埋め込みなし | 反転文はある（`∼sentenceC`） | — | — | `ReversalStep` でない |
+| ゲーデル Tₙ→Tₙ₊₁ | 構造の埋め込みではなく、定理の包含 `Tₙ ⪯ Tₙ₊₁` | 理論の反転なし | あり（`Con(Tₙ)`） | J5 の読みではなし。J8 の読みではあり、中身は未決定形と同じ（MDG5(f)） | 反転形は通らない。未決定形は通る |
+| ACSI の取り込み | 構造ではない。評価述語と分類を保つ | 定義の外（I6 の 6）。「分類できる」は偽→真になり、真→偽にはならない | 定義の外 | あり（新しい経験 0 と 1） | `RefineStep`（細分は ACSI の成長の一つの型。D8） |
+| ℤ√2: 環→順序環 | 同じ領域。評価述語を保つ | — | 対象外 | あり（√2 と −√2） | `RefineStep` |
+
+どこで一致し、どこで分かれるか（事実の記録）:
+- **一致**: 三者とも、前の段を何らかの意味で保つ。数学は構造の埋め込み（古い領域に制限すればすべての文が保たれる、MDG1(f)）、ゲーデルは定理の包含、ACSI は評価述語と分類である。
+- **分かれ方**: それぞれが通る形が違う。
+  - 数学の例は反転形を通る。
+  - ゲーデルの上昇は反転形を通らず（MDG4(b)）、未決定形を通る（MDG4(c)）。
+  - ACSI の取り込みは細分形を通る。ただし細分は ACSI の成長の一つの型であり、ACSI を細分形と同一視しない（D8）。選択型の成長は表していない（D9、MDG6(d)）。
+- **ただし細分形については、ゲーデルと ACSI の違いは読みに依存する。** J8 の読みでは、ゲーデルの上昇も細分形を通る。ただしその細分形は未決定形と同じものである（MDG5(f)）。J5 の読みでは、三つの形は別々に保たれる。
+- **ACSI と反転形・未決定形**: ACSI の取り込みは、構造の反転にも理論の反転にも未決定形にも当てはまらない。比較できないのであって、通らないことを示したのではない。
+- **どの形でも、一つの体系の中で φ ∧ ¬φ は成り立たない**（A8、AC3(b)）。反転形で成り立っているのは、前の段で偽、新しい段で真という、段をまたいだ関係である。MDG1(g) でも、ℂ で同時に成り立つ二つは別の文（制限した文と制限しない文）である。
+
+### I9. 著者に返す判断（Claude Code は判断しない）
+1. ~~MDG6(b) は成り立った。ACSI の取り込みを、意味次元生成（細分形）とみなすか。~~ **著者が決定した（D8・D9）。** ACSI を細分形と同一視しない。細分は ACSI の成長の一つの型である。選択型の成長は、現在のモデルでは表していない。
+2. 未決定形（ゲーデルの上昇）を、意味次元生成の一つの形に含めるか。
+   - 含める場合、ゲーデルの上昇も意味次元生成の一つになる。対比は「ゲーデルの上昇は意味次元生成ではない」ではなく、「ゲーデルの上昇は未決定形しか通らず、反転形は通らない（MDG4）」になる。
+   - 含めない場合、未決定形は比較の対象にとどまる。
+3. 埋め込みの定義（J1、J2）が、著者の「前の段を特殊な場合として含む」に合っているか。FB を受けて次のように対応した。
+   - ℂ の順序: 数学の例から `<` を外した（J2 改訂）。
+   - 全称文の事実が保たれないこと: 古い領域に制限すれば、すべての文が保たれる（MDG1(f)(g)）。「含む」をこの意味で読むかどうかは著者が決める。
+4. ゲーデルの上昇の「区別」を、証明可能な同値（J5）で読むか、各段での証明可能性の累積（J8）で読むか。
+   - J5 では、ゲーデルは細分形を通らず、三つの形は別々に保たれる。
+   - J8 では、ゲーデルは細分形も通る。ただし MDG5(f) により、その中身は未決定形と同じものになる。
+
+### I10. 言えないこと（全体）
+- 意味次元生成に伴う人間の意思、生成が発見ではないこと、可能無限であることは、形式化していない。
+- 数学の例は、意味次元生成が**起きた後の**構造の関係を述べるだけで、生成の過程は表さない。
+- 型があらかじめ固定されているので、「まだ存在しない構造」は表せない（ACSI の M7 と同じ限界）。
+- ACSI の成長のうち、選択型（重要でない区別を同一視する）は表していない（D9）。
+- 英語の "contradiction"（一つの体系の中の φ ∧ ¬φ）は、Lean の三つの形のどれにも厳密には当てはまらない（I8 の最後の項）。訳語をどうするかは著者が決める。
+- 数学的に新しい定理はない。新規性は主張しない。
