@@ -5,9 +5,14 @@
 #   3. audit the axioms of every MeaningDimension declaration;
 #   4. record the environment (commit SHAs, toolchain).
 # Logs go to logs/. Exit status is non-zero on any failure.
+# The commit and the uncommitted files are recorded before any log is written, and logs/ itself is
+# not counted, so a run on a clean commit records "project dirty: 0 files".
 set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p logs
+
+project_commit="$(git rev-parse --verify -q HEAD || echo uncommitted)"
+project_dirty="$(git status --porcelain -- . ':(exclude)logs' 2>/dev/null | wc -l | tr -d ' ')"
 
 echo "== 1. forbidden constructs"
 if grep -rnE '\bsorry\b|\badmit\b|^[[:space:]]*(private |protected )?axiom\b|native_decide|\bunsafe\b|implemented_by|@\[extern' \
@@ -28,8 +33,8 @@ grep -q "AXIOM AUDIT OK" logs/axioms.log
 echo "== 4. environment"
 {
   echo "date: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  echo "project commit: $(git rev-parse --verify -q HEAD || echo uncommitted)"
-  echo "project dirty: $(git status --porcelain 2>/dev/null | wc -l | tr -d ' ') files"
+  echo "project commit: ${project_commit}"
+  echo "project dirty: ${project_dirty} files"
   echo "lean: $(lake env lean --version)"
   echo "lean-toolchain: $(cat lean-toolchain)"
   python3 -c "import json; m=json.load(open('lake-manifest.json')); [print(f\"{p['name']}: {p['rev']}\") for p in m['packages']]"
