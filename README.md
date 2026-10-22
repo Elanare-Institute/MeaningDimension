@@ -22,12 +22,12 @@ scripts/check_proofs.sh      # 禁止構文の検査 / lake build（仕様テス
 | `MeaningDimension/Godel/MadeCanonicity.lean` | Phase 3（予備）: D1–D3 は無矛盾性文を決めない |
 | `MeaningDimension/Godel/PresentationDependence.lean` | G5（2026-10-20）: 同じ公理集合の二つの Δ₁ 表示で次段階 `T ∪ {Con}` が真に異なる。次段階は理論だけからは決まらない（`docs/presentation_spec.md`） |
 | `MeaningDimension/ACSI/` | 絶対矛盾的自己同一（著者の定式化、2026-10-19）: 枠組み相対の主客未分、取り込み、互いに先立つこと、非完結性（`docs/acsi_spec.md`） |
-| `MeaningDimension/Correspondence/` | CR（2026-10-20）: ACSI とゲーデルの上昇の、部分的な構造同型。成長系と痕跡の同型（`Growth.lean`）、ACSI 側とゲーデル側の実例と同型（`ACSIGodel.lean`）（`docs/correspondence_spec.md`） |
+| `MeaningDimension/Correspondence/` | CR（2026-10-20）: ACSI とゲーデルの上昇の、部分的な構造同型。成長系と痕跡の同型（`Growth.lean`）、ACSI 側とゲーデル側の実例と同型（`ACSIGodel.lean`）。CR7–CR10（2026-10-22）: 可能無限の形の過程の同型、差し出しと開放性（(iv) の違いの位置）、開放性の帰結、取り込みの振る舞い（入力が事前に決まっているかの観察。ゲーデルでは項目が来歴を含む。ACSI の対応ではない）（`Process.lean`、`Extension.lean`）。CR11–CR13（2026-10-22、`MDG.lean`）: 意味次元生成の入力のモデル（ブラックボックスの生成の働き）、三者の痕跡の同型（数学史の過去 ℕ→ℤ→ℚ→ℝ→ℂ を含む）、入力の構造の同型（ACSI と MDG はどの大きさの標準の入力の構造も含み、ゲーデルは大きさ 2 を含まない）（`docs/correspondence_spec.md`） |
 | `MeaningDimension/Generation/` | MDG（2026-10-20）: 意味次元生成の三つの形（反転形・未決定形・細分形）。古い領域に制限した文の保存、環の言語 `ℒᵣ`。ℕ→ℤ・ℚ→ℝ・ℝ→ℂ、ゲーデルの上昇、ACSI の取り込み、ℤ√2 の三者比較。MDG8（2026-10-21、`Packing.lean`）: Lakatos の Kappa の「2+2=5」（梱包）が反転形の一歩かは、どの記号を固定する言語を選ぶかによる（`docs/mdg_spec.md`） |
 | `Tests/Spec.lean` | `docs/spec.md` から書き起こした仕様テスト（非空虚性の確認を含む） |
 | `Tests/PresentationSpec.lean` | `docs/presentation_spec.md` から書き起こした仕様テスト（𝗜𝚺₁ と 𝗣𝗔 での実例化を含む） |
 | `Tests/ACSISpec.lean` | `docs/acsi_spec.md` から書き起こした仕様テスト（非空虚性の確認を含む） |
-| `Tests/CorrespondenceSpec.lean` | `docs/correspondence_spec.md` から書き起こした仕様テスト（`singletonMaking`・𝗜𝚺₁・𝗣𝗔 での実例化を含む） |
+| `Tests/CorrespondenceSpec.lean` | `docs/correspondence_spec.md` から書き起こした仕様テスト（`singletonMaking`・`iicMaking`・数学史の過去・ℝ・𝗜𝚺₁・𝗣𝗔 での実例化を含む） |
 | `Tests/MDGSpec.lean` | `docs/mdg_spec.md` から書き起こした仕様テスト（`singletonMaking`・𝗜𝚺₁・𝗣𝗔 での実例化、MDG8 の w = 1・w = −1/2 での実例化を含む） |
 | `Tests/AxiomAudit.lean` | 全宣言の公理監査 |
 | `docs/` | source map, dependency audit, spec, theorem ledger, dependency graph, scope, open problems, made-canonicity audit, paper insert（英語） |

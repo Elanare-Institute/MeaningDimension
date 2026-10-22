@@ -11,6 +11,9 @@ import MeaningDimension.ACSI.MutualPrecedence
 import MeaningDimension.Godel.PresentationDependence
 import MeaningDimension.Correspondence.Growth
 import MeaningDimension.Correspondence.ACSIGodel
+import MeaningDimension.Correspondence.Process
+import MeaningDimension.Correspondence.Extension
+import MeaningDimension.Correspondence.MDG
 import MeaningDimension.Generation.Embedding
 import MeaningDimension.Generation.RingLanguage
 import MeaningDimension.Generation.Examples
