@@ -490,7 +490,7 @@ Gödel 関係の形式化とは独立。仕様は `docs/acsi_spec.md`（実装�
 2. **Lean**:
    - CR11: `Struc`, `Struc.Holds`, `mdgOffer`, `MDGMaking`, `MDGMaking.nonempty`, `MDGMaking.step`, `MDGMaking.step_of_offer`, `MDGMaking.holds_gen_of_isExistential`, `MDGMaking.run`, `MDGMaking.Offered`。
    - CR12: `MDGPast`, `MDGPast.holds_mono`, `MDGPast.holds_iff`, `MDGPast.stage_injective`, `MDGPast.demand_injective`, `MDGPast.trace`, `MDGPast.ofStd`, `MDGMaking.toPast`, `mdgAcsiIso`, `mdgAcsiIso_stage`, `mdgAcsiIso_item`, `mdgGodelIso`, `mdgGodelIso_stage`, `mdgGodelIso_item`, `intRat`, `sentenceQ`, `historyPast`。
-   - CR13: `OfferIncidence`, `OfferIncidence.Iso`, `OfferIncidence.std`, `offerAt`, `offerAt_iso`, `acsi_offerIso`, `padC`, `padC_injective`, `mdgOffer_real_padC`, `mdg_offerIso`, `godel_not_offerIso`。
+   - CR13: `OfferIncidence`, `OfferIncidence.Iso`, `OfferIncidence.std`, `offerAt`, `offerAtIso`, `offerAtIso_stage`, `offerAtIso_item`, `offerAt_iso`, `acsi_offerIso`, `padC`, `padC_injective`, `mdgOffer_real_padC`, `mdg_offerIso`, `godel_not_offerIso`。
 3. **状態**: 証明済み。
 4. **依存**: CR11 は MDG1(b)。CR12 は MDG1(b)、MDG2 の事実、CR2・CR4。CR13 は `ownCon_unique`（CR8(d)）。
 5. **新規性**: なし。どれも初等的である。
@@ -500,6 +500,40 @@ Gödel 関係の形式化とは独立。仕様は `docs/acsi_spec.md`（実装�
    - CR13 は、入力の構造（段階と、そこに来うる入力）だけを扱う。生成のあとの段階どうしの関係（ある入力の取り込みが別の入力を成り立たせるか）は、生成の働き（ブラックボックス）に依存するので含まない。
    - モデル全体のあいだの同型写像は作らない。段階や項目の集まりが違うので作れない。
    - 入力が来る前の段階で、入力やその否定を評価することは、ACSI と MDG のモデルの構造に入れていない。MDG の要求を文で書き表すのは表し方の一つである。
+
+### H9. 同型写像の一覧（2026-10-22 追加）
+
+§H2–H8 で証明した同型写像を一か所にまとめる。仕様は `correspondence_spec.md` §8 で、新しい命題はない。「成り立つ」は、ACSI では分類できる、ゲーデルでは証明できる、MDG ではその構造で真、である。
+
+**痕跡の同型（履歴のあいだの同型。モデルどうしの同型ではない）**
+
+| ID | 何と何のあいだか | 写像（段階 / 項目） | 保ち、かつ反映する関係 | 条件 | Lean |
+|---|---|---|---|---|---|
+| CR2 | 成長系の新鮮な過去の痕跡 ↔ 長さ n の標準の構造 | k ↦ k 番目の段階 / j ↦ `h[j]` | 成り立つ、継起 | 新鮮 | `Growth.Fresh.ofStd` |
+| CR3 | 任意の二つの成長系の、同じ長さの新鮮な痕跡 | k 番目 ↦ k 番目 / j 番目 ↦ j 番目 | 成り立つ、継起 | 新鮮、同じ長さ | `Growth.traceIso` |
+| CR5 | ACSI の新鮮な痕跡 ↔ ゲーデルの上昇の痕跡 | k 段の自己 ↦ `Tₖ` / `h[j]` ↦ `Con(Tⱼ)` | 成り立つ、継起 | A3 の仮定 | `acsiGodelIso` |
+| CR7 | 長い過去の同型と、その前の部分の同型 | 共通の段階・項目は同じ像に送られる（同型の延長） | — | 新鮮 | `Growth.traceIso_stage_extends`、`acsiGodelIso_stage_extends` ほか |
+| CR10 | max 規則をみたす新鮮な痕跡 ↔ 取り込みつきの標準の構造 | k ↦ k 番目の段階 / j ↦ `h[j]` | 成り立つ、継起、取り込み（`StepTo`） | 新鮮、max 規則 | `Growth.Fresh.ofStdStep`、`Growth.stepTraceIso` |
+| CR12 | MDG の過去の痕跡 ↔ 標準の構造 ↔ ACSI・ゲーデルの痕跡 | k 番目の構造 ↦ k 段の自己 ↦ `Tₖ` / j 番目の要求 ↦ `h[j]` ↦ `Con(Tⱼ)` | 成り立つ、継起 | 要求は存在文。ゲーデル側は A3 の仮定 | `MDGPast.ofStd`、`mdgAcsiIso`、`mdgGodelIso` |
+
+CR12 の実例（`historyPast` と `conPast 𝗣𝗔 4`）: ℕ, ℤ, ℚ, ℝ, ℂ ↦ T₀, T₁, T₂, T₃, T₄。∃x (x + 5 = 3), ∃x (x + x = 1), ∃x (x · x = 2), ∃x (x · x + 1 = 0) ↦ Con(T₀), Con(T₁), Con(T₂), Con(T₃)。
+
+**入力の構造の同型（段階と、そこに来うる入力のあいだの同型）**
+
+| ID | 何と何のあいだか | 写像（段階 / 項目） | 保ち、かつ反映する関係 | 条件 | Lean |
+|---|---|---|---|---|---|
+| CR13(a) | 標準の入力の構造（n 個） ↔ 段階 s と、s に来うる n 個の入力 | ただ一つの段階 ↦ s / i ↦ `xs i` | 成り立つ、来うる | 入力が異なり、s に来うる | `offerAtIso` |
+| CR13(b) | 同上、ACSI の空の自己で | 同上 | 同上 | 経験が無限。どの n でも。作る働きによらない | `acsi_offerIso` |
+| CR13(c) | 同上、MDG の ℝ で（入力 `padC 0, …, padC (n − 1)`） | 同上 | 同上 | どの n でも。生成の働きによらない | `mdg_offerIso` |
+
+**同型がないこと（証明済み）**
+
+| ID | 何と何のあいだか | 理由 | Lean |
+|---|---|---|---|
+| CR10(e) | `singletonMaking` の長さ 2 以上の新鮮な痕跡 ↔ ゲーデルの痕跡（取り込みつき） | 前者は取り込みで閉じず、後者は閉じる。同型は閉じていることを保つ | `singleton_not_stepIso` |
+| CR13(d) | 大きさ 2 の標準の入力の構造 ↔ ゲーデル側のどの段階の入力の構造の部分 | ゲーデル側の差し出しは一つ | `godel_not_offerIso` |
+
+**作らないもの**: モデル全体のあいだの同型写像。段階や項目の集まりが違うので作れない。
 
 ## I. 意味次元生成の三つの形（反転形・未決定形・細分形）と三者比較（MDG、2026-10-20 追加、同日改訂）
 

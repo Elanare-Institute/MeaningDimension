@@ -194,7 +194,7 @@
 - 範疇の在庫（AC10(c) そのもの）は ACSI の概念なので、ゲーデル側には持ち込まない（E2）。
 
 **CR10（取り込みの振る舞い。入力が事前に決まっているかの観察）**
-- (a) 抽象形: s₀ からmax 規則をみたす新鮮な過去 h について、同型 `(StepIncidence.std h.length).Iso (G.stepTrace s₀ h)` がある。これは k を k 番目の段階に、j を `h[j]` に送る。したがって、任意の成長系 G、G' で、同じ長さの、max 規則をみたす新鮮な過去の `stepTrace` は同型である。
+- (a) 抽象形: s₀ から max 規則をみたす新鮮な過去 h について、同型 `(StepIncidence.std h.length).Iso (G.stepTrace s₀ h)` がある。これは k を k 番目の段階に、j を `h[j]` に送る。したがって、任意の成長系 G、G' で、同じ長さの、max 規則をみたす新鮮な過去の `stepTrace` は同型である。
 - (b) 閉じていること。
   - 同型は閉じていることを保つ: `A.Iso B → (A.Closed ↔ B.Closed)`。
   - max 規則をみたす新鮮な過去の `stepTrace` は閉じている。
@@ -203,7 +203,7 @@
   - さらに `𝗜𝚺₁ ⪯ T` なら、任意の k、j について `Tₖ ∪ {Con(Tⱼ)} ≊ T_{max(k, j+1)}`。
   - したがって `conPast T n` は T から max 規則をみたす。
 - (d) 項目が来歴を含む。
-  - 抽象形: s₀ からmax 規則をみたす新鮮な過去 h では、j 番目の項目を s₀ で取り込むだけで、i ≤ j のすべての項目が成り立つ: `G.Holds (G.step s₀ h[j]) h[i]`。
+  - 抽象形: s₀ から max 規則をみたす新鮮な過去 h では、j 番目の項目を s₀ で取り込むだけで、i ≤ j のすべての項目が成り立つ: `G.Holds (G.step s₀ h[j]) h[i]`。
   - ゲーデル側: `[T.Δ₁]`、`𝗜𝚺₁ ⪯ T` のもとで、i ≤ j なら `T ∪ {Con(Tⱼ)} ⊢ Con(Tᵢ)`。Con(Tⱼ) は Tⱼ から作る文なので、来歴を含む。
 - (e) ACSI 側の閉じ方。
   - 到達可能な自己の全体は、どの経験の取り込みでも閉じている（`Making.Reachable.step`）。どの段階の自己も、どの経験でも取り込める（E5）。
@@ -311,7 +311,7 @@
 - (e) 数学史の過去: `historyPast`（ℕ→ℤ→ℚ→ℝ→ℂ）は `MDGPast ℒᵣ 4` である。その痕跡は、長さ 4 の ACSI の新鮮な過去（`singletonMaking`、空の自己）の痕跡と、`conPast 𝗣𝗔 4` の痕跡に同型である。
 
 **CR13（入力の構造）**
-- (a) 抽象形: 段階 s に来うる異なる n 個の項目 xs があり、s に来うる項目が s で成り立たないなら、同型 `(OfferIncidence.std n).Iso (offerAt Holds Offer s xs)` がある。
+- (a) 抽象形: 段階 s に来うる異なる n 個の項目 xs があり、s に来うる項目が s で成り立たないなら、同型 `offerAtIso hxs hnew : (OfferIncidence.std n).Iso (offerAt Holds Offer s xs)` がある。これは標準の構造のただ一つの段階を s に、i 番目の項目を `xs i` に送る（`offerAtIso_stage`、`offerAtIso_item`）。存在の形 `offerAt_iso` も置く。
 - (b) ACSI: E が無限なら、どの n についても、空の自己に来うる（全く新しい）異なる n 個の経験 xs と、`(OfferIncidence.std n).Iso (offerAt (acsiGrowth M).Holds (fun S e ↦ S.IsNew e) Self.empty xs)` がある。作る働き M によらない。
 - (c) MDG: どの n についても、ℝ に来うる異なる n 個の要求（`padC 0, …, padC (n − 1)`）と、`(OfferIncidence.std n).Iso (offerAt Struc.Holds mdgOffer realS xs)` がある。生成の働きによらない。
 - (d) ゲーデル: 表示つきの理論のどの段階 S と、どの 2 個の文 `xs : Fin 2 ↪ ArithmeticSentence` についても、`(OfferIncidence.std 2).Iso (offerAt godelStageGrowth.Holds ownCon S xs)` はない。差し出しが一つだからである（CR8(d)）。
@@ -336,3 +336,37 @@
 - **CR12 の MDG 側は、要求が存在文の場合だけである**（N16）。
 - **CR13 は入力の構造（段階と、そこに来うる入力）だけを扱う。** 生成のあとの段階どうしの関係（ある入力の取り込みが別の入力を成り立たせるか）は含まない。それは生成の働き（ブラックボックス）に依存するからである。
 - **モデル全体のあいだの同型写像は作らない。**
+
+## 8. 同型写像の一覧（2026-10-22 追加）
+
+§3・§6・§7 で証明した同型写像を一か所にまとめる。新しい命題はない。「成り立つ」は、ACSI では分類できる、ゲーデルでは証明できる、MDG ではその構造で真、である。
+
+**痕跡の同型（履歴のあいだの同型。モデルどうしの同型ではない）**
+
+| ID | 何と何のあいだか | 写像（段階 / 項目） | 保ち、かつ反映する関係 | 条件 | Lean |
+|---|---|---|---|---|---|
+| CR2 | 成長系の新鮮な過去の痕跡 ↔ 長さ n の標準の構造 | k ↦ k 番目の段階 / j ↦ `h[j]` | 成り立つ、継起 | 新鮮 | `Growth.Fresh.ofStd` |
+| CR3 | 任意の二つの成長系の、同じ長さの新鮮な痕跡 | k 番目 ↦ k 番目 / j 番目 ↦ j 番目 | 成り立つ、継起 | 新鮮、同じ長さ | `Growth.traceIso` |
+| CR5 | ACSI の新鮮な痕跡 ↔ ゲーデルの上昇の痕跡 | k 段の自己 ↦ `Tₖ` / `h[j]` ↦ `Con(Tⱼ)` | 成り立つ、継起 | A3 の仮定 | `acsiGodelIso` |
+| CR7 | 長い過去の同型と、その前の部分の同型 | 共通の段階・項目は同じ像に送られる（同型の延長） | — | 新鮮 | `Growth.traceIso_stage_extends`、`acsiGodelIso_stage_extends` ほか |
+| CR10 | max 規則をみたす新鮮な痕跡 ↔ 取り込みつきの標準の構造 | k ↦ k 番目の段階 / j ↦ `h[j]` | 成り立つ、継起、取り込み（`StepTo`） | 新鮮、max 規則 | `Growth.Fresh.ofStdStep`、`Growth.stepTraceIso` |
+| CR12 | MDG の過去の痕跡 ↔ 標準の構造 ↔ ACSI・ゲーデルの痕跡 | k 番目の構造 ↦ k 段の自己 ↦ `Tₖ` / j 番目の要求 ↦ `h[j]` ↦ `Con(Tⱼ)` | 成り立つ、継起 | 要求は存在文。ゲーデル側は A3 の仮定 | `MDGPast.ofStd`、`mdgAcsiIso`、`mdgGodelIso` |
+
+CR12 の実例（`historyPast` と `conPast 𝗣𝗔 4`）: ℕ, ℤ, ℚ, ℝ, ℂ ↦ T₀, T₁, T₂, T₃, T₄。∃x (x + 5 = 3), ∃x (x + x = 1), ∃x (x · x = 2), ∃x (x · x + 1 = 0) ↦ Con(T₀), Con(T₁), Con(T₂), Con(T₃)。
+
+**入力の構造の同型（段階と、そこに来うる入力のあいだの同型）**
+
+| ID | 何と何のあいだか | 写像（段階 / 項目） | 保ち、かつ反映する関係 | 条件 | Lean |
+|---|---|---|---|---|---|
+| CR13(a) | 標準の入力の構造（n 個） ↔ 段階 s と、s に来うる n 個の入力 | ただ一つの段階 ↦ s / i ↦ `xs i` | 成り立つ、来うる | 入力が異なり、s に来うる | `offerAtIso` |
+| CR13(b) | 同上、ACSI の空の自己で | 同上 | 同上 | 経験が無限。どの n でも。作る働きによらない | `acsi_offerIso` |
+| CR13(c) | 同上、MDG の ℝ で（入力 `padC 0, …, padC (n − 1)`） | 同上 | 同上 | どの n でも。生成の働きによらない | `mdg_offerIso` |
+
+**同型がないこと（証明済み）**
+
+| ID | 何と何のあいだか | 理由 | Lean |
+|---|---|---|---|
+| CR10(e) | `singletonMaking` の長さ 2 以上の新鮮な痕跡 ↔ ゲーデルの痕跡（取り込みつき） | 前者は取り込みで閉じず、後者は閉じる。同型は閉じていることを保つ | `singleton_not_stepIso` |
+| CR13(d) | 大きさ 2 の標準の入力の構造 ↔ ゲーデル側のどの段階の入力の構造の部分 | ゲーデル側の差し出しは一つ | `godel_not_offerIso` |
+
+**作らないもの**: モデル全体のあいだの同型写像（段階や項目の集まりが違うので作れない）。
