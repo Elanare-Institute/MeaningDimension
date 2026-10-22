@@ -1,6 +1,4 @@
-✔ [2249/2258] Built MeaningDimension.Correspondence.MDG (1.8s)
-✔ [2250/2258] Built MeaningDimension (1.2s)
-ℹ [2252/2258] Built Tests.AxiomAudit (2.7s)
+ℹ [2257/2258] Replayed Tests.AxiomAudit
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.provable_mono : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.unprovable_of_refuted : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.not_models_and_models_neg : [propext, Classical.choice, Quot.sound]
@@ -821,9 +819,4 @@ info: Tests/AxiomAudit.lean:34:0: MeaningDimension.Generation.Kappa.four.eq_1 : 
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.Generation.Kappa.flips_not_zeroR : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: MeaningDimension.Generation.Kappa.pack_one_models_five : [propext, Classical.choice, Quot.sound]
 info: Tests/AxiomAudit.lean:34:0: AXIOM AUDIT OK: 817 declarations, only [propext, Classical.choice, Quot.sound]
-✔ [2253/2258] Built Tests.PresentationSpec (2.8s)
-✔ [2254/2258] Built Tests.ACSISpec (2.8s)
-✔ [2255/2258] Built Tests.Spec (2.9s)
-✔ [2256/2258] Built Tests.MDGSpec (3.2s)
-✔ [2257/2258] Built Tests.CorrespondenceSpec (3.6s)
 Build completed successfully (2258 jobs).
