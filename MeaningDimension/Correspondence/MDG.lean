@@ -386,19 +386,36 @@ abbrev offerAt {S : Type u} {I : Type v} (Holds Offer : S → I → Prop) (s : S
   Holds t x := Holds t x
   Offer t x := Offer t x
 
+section OfferAt
+
+variable {S : Type u} {I : Type v} {Holds Offer : S → I → Prop} {s : S} {n : ℕ}
+  {xs : Fin n ↪ I} (hxs : ∀ i, Offer s (xs i)) (hnew : ∀ x, Offer s x → ¬ Holds s x)
+
 /-- CR13(a): `n` different inputs that may come to `s`, none of which holds at `s`, form a copy of
-the standard input structure. -/
-theorem offerAt_iso {S : Type u} {I : Type v} {Holds Offer : S → I → Prop} {s : S} {n : ℕ}
-    {xs : Fin n ↪ I} (hxs : ∀ i, Offer s (xs i)) (hnew : ∀ x, Offer s x → ¬ Holds s x) :
-    Nonempty ((OfferIncidence.std n).Iso (offerAt Holds Offer s xs)) :=
-  ⟨{ stage :=
-      { toFun := fun _ ↦ ⟨s, rfl⟩
-        invFun := fun _ ↦ ()
-        left_inv := fun _ ↦ rfl
-        right_inv := fun ⟨_, ht⟩ ↦ by subst ht; rfl }
-     item := Equiv.ofInjective xs xs.injective
-     holds_iff := fun _ i ↦ ⟨False.elim, fun h ↦ hnew _ (hxs i) h⟩
-     offer_iff := fun _ i ↦ ⟨fun _ ↦ hxs i, fun _ ↦ trivial⟩ }⟩
+the standard input structure. The isomorphism sends the only stage to `s` and the `i`-th item to
+`xs i`. -/
+noncomputable def offerAtIso : (OfferIncidence.std n).Iso (offerAt Holds Offer s xs) where
+  stage :=
+    { toFun := fun _ ↦ ⟨s, rfl⟩
+      invFun := fun _ ↦ ()
+      left_inv := fun _ ↦ rfl
+      right_inv := fun ⟨_, ht⟩ ↦ by subst ht; rfl }
+  item := Equiv.ofInjective xs xs.injective
+  holds_iff := fun _ i ↦ ⟨False.elim, fun h ↦ hnew _ (hxs i) h⟩
+  offer_iff := fun _ i ↦ ⟨fun _ ↦ hxs i, fun _ ↦ trivial⟩
+
+/-- CR13(a): the only stage goes to `s`. -/
+theorem offerAtIso_stage (u : Unit) : ((offerAtIso hxs hnew).stage u : S) = s := rfl
+
+/-- CR13(a): the `i`-th item goes to `xs i`. -/
+theorem offerAtIso_item (i : Fin n) : ((offerAtIso hxs hnew).item i : I) = xs i := rfl
+
+include hxs hnew in
+/-- CR13(a), as an existence statement. -/
+theorem offerAt_iso : Nonempty ((OfferIncidence.std n).Iso (offerAt Holds Offer s xs)) :=
+  ⟨offerAtIso hxs hnew⟩
+
+end OfferAt
 
 theorem isNew_empty {E : Type u} (e : E) : (Self.empty : Self E).IsNew e :=
   fun ⟨_, hc, _⟩ ↦ List.not_mem_nil hc

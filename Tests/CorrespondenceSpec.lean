@@ -775,10 +775,19 @@ end CR12
 section CR13
 
 -- (a)
-example {S I : Type} {Holds Offer : S → I → Prop} {s : S} {m : ℕ} {xs : Fin m ↪ I}
-    (hxs : ∀ i, Offer s (xs i)) (hnew : ∀ x, Offer s x → ¬ Holds s x) :
-    Nonempty ((OfferIncidence.std m).Iso (offerAt Holds Offer s xs)) :=
+section A
+
+variable {S I : Type} {Holds Offer : S → I → Prop} {s : S} {m : ℕ} {xs : Fin m ↪ I}
+  (hxs : ∀ i, Offer s (xs i)) (hnew : ∀ x, Offer s x → ¬ Holds s x)
+
+noncomputable example : (OfferIncidence.std m).Iso (offerAt Holds Offer s xs) :=
+  offerAtIso hxs hnew
+example (u : Unit) : ((offerAtIso hxs hnew).stage u : S) = s := offerAtIso_stage hxs hnew u
+example (i : Fin m) : ((offerAtIso hxs hnew).item i : I) = xs i := offerAtIso_item hxs hnew i
+example : Nonempty ((OfferIncidence.std m).Iso (offerAt Holds Offer s xs)) :=
   offerAt_iso hxs hnew
+
+end A
 
 -- (b)
 example {E : Type} [Infinite E] (M : Making E) (m : ℕ) :
